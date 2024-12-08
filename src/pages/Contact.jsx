@@ -1,11 +1,11 @@
-import { Box, Typography, Paper, TextField, Button, Grid } from '@mui/material';
+import { Box, Typography, Paper, TextField, Button, Grid, Link } from '@mui/material';
 import { motion } from 'framer-motion';
 import { InlineWidget } from 'react-calendly';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { useRef } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Contact = () => {
   const form = useRef();
@@ -17,8 +17,9 @@ const Contact = () => {
   });
 
   useEffect(() => {
-    // Initialize EmailJS with your public key
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    emailjs.init({
+      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    });
   }, []);
 
   const handleCloseSnackbar = () => {
@@ -77,35 +78,31 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Get form data
-    const formData = new FormData(form.current);
-    const templateParams = {
-      to_email: 'andread-b@hotmail.com',
-      user_name: formData.get('user_name'),
-      user_email: formData.get('user_email'),
-      message: formData.get('message')
-    };
-
     try {
-      await emailjs.send(
+      const result = await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams
+        {
+          from_name: form.current.user_name.value,
+          from_email: form.current.user_email.value,
+          message: form.current.message.value,
+          to_email: 'andread-b@hotmail.com'
+        }
       );
 
-      setSnackbar({
-        open: true,
-        message: 'Message sent successfully!',
-        severity: 'success'
-      });
-      
-      // Clear form
-      form.current.reset();
+      if (result.text === 'OK') {
+        setSnackbar({
+          open: true,
+          message: 'Message sent successfully!',
+          severity: 'success'
+        });
+        form.current.reset();
+      }
     } catch (error) {
-      console.error('Email error:', error);
+      console.error('Detailed error:', error);
       setSnackbar({
         open: true,
-        message: 'Failed to send message. Please try again.',
+        message: `Failed to send message: ${error.message}`,
         severity: 'error'
       });
     } finally {
@@ -133,13 +130,13 @@ const Contact = () => {
                   I'm always interested in hearing about new opportunities and collaborations. Feel free to reach out!
                 </Typography>
                 <Typography sx={{ color: '#8BA6C7', mb: 1 }}>
-                  Email: andreab-b@hotmail.com
+                  Email: andread-b@hotmail.com
                 </Typography>
                 <Typography sx={{ color: '#8BA6C7', mb: 1 }}>
-                  LinkedIn: [Your LinkedIn]
+                  LinkedIn: <Link href="https://www.linkedin.com/in/andreawdb/" target="_blank" rel="noopener noreferrer" sx={{ color: '#8BA6C7', '&:hover': { color: '#B8C5D1' } }}>linkedin.com/in/andreawdb</Link>
                 </Typography>
                 <Typography sx={{ color: '#8BA6C7' }}>
-                  GitHub: [Your GitHub]
+                  GitHub: <Link href="https://github.com/AndreaBavaro" target="_blank" rel="noopener noreferrer" sx={{ color: '#8BA6C7', '&:hover': { color: '#B8C5D1' } }}>github.com/AndreaBavaro</Link>
                 </Typography>
               </Box>
               
@@ -173,12 +170,16 @@ const Contact = () => {
                 />
                 <Button
                   fullWidth
-                  variant="contained"
                   type="submit"
+                  variant="contained"
                   disabled={loading}
                   sx={{ ...buttonStyle, mt: 2 }}
                 >
-                  {loading ? 'Sending...' : 'Send Message'}
+                  {loading ? (
+                    <CircularProgress size={24} sx={{ color: '#B8C5D1' }} />
+                  ) : (
+                    'Send Message'
+                  )}
                 </Button>
               </Box>
             </Paper>

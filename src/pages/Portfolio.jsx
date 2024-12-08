@@ -41,22 +41,22 @@ const Portfolio = () => {
 
   const projects = [
     {
-      title: 'Personal Investment Application',
-      description: 'A full-stack investment tracking application built with React and Node.js. Features real-time stock data integration and portfolio management.',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Material-UI', 'Chart.js'],
-      demoLink: 'https://github.com/yourusername/investment-app',
+      title: 'OpenAPI Migration Automation Tool',
+      description: 'Developed an internal Python tool for Citi to automate the migration of Java Spring Boot projects from Swagger 2 to OpenAPI 3.0. Built recursive file processing functionality to batch-convert entire projects, with an optional substring-based directory filter, streamlining large-scale microservices migration efforts.',
+      technologies: ['Python', 'Regular Expressions', 'Java Spring Boot'],
+      demoLink: null,
     },
     {
-      title: 'AI-Powered Code Generator',
-      description: 'Developed an AI-powered code generation tool using Python and OpenAI\'s GPT-3 API with web interface for code generation and editing.',
-      technologies: ['Python', 'Flask', 'OpenAI API', 'React', 'PostgreSQL'],
-      demoLink: 'https://github.com/yourusername/code-generator',
+      title: 'Personal Investment Platform',
+      description: 'Developed a financial portfolio manager web application using React for the front end, Java Spring Boot for the back end, and MySQL for data storage. Created and integrated REST APIs to deliver real-time stock information and deployed the application on Google Cloud using Docker, enabling users to manage their portfolios with up-to-date market data and analytics.',
+      technologies: ['React', 'Java Spring Boot', 'MySQL', 'Docker', 'Google Cloud'],
+      demoLink: 'https://youtu.be/-7F3vuJG5Ts',
     },
     {
       title: 'E-Commerce Inventory Tracker',
-      description: 'Built an automated inventory tracking system using Python and Selenium for monitoring product availability and stock updates.',
-      technologies: ['Python', 'Selenium', 'BeautifulSoup', 'Discord API'],
-      demoLink: 'https://github.com/yourusername/inventory-tracker',
+      description: 'Utilized Selenium to scrape HTML elements and monitor product availability in real time. Integrated Discord notifications for immediate stock update alerts.',
+      technologies: ['Python', 'Selenium', 'Requests', 'Discord'],
+      demoLink: null,
     },
   ];
 
@@ -79,9 +79,11 @@ const Portfolio = () => {
                   <Typography variant="h5" sx={{ color: '#B8C5D1', mb: 1 }}>
                     {project.title}
                   </Typography>
-                  <Link href={project.demoLink} target="_blank" sx={linkStyle}>
-                    Demo →
-                  </Link>
+                  {project.demoLink && (
+                    <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" sx={linkStyle}>
+                      View Demo →
+                    </Link>
+                  )}
                   <Typography sx={{ color: '#D5DFE9', my: 2, lineHeight: 1.8 }}>
                     {project.description}
                   </Typography>
