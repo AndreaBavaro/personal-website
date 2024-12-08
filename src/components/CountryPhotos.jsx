@@ -119,17 +119,12 @@ const CountryPhotos = () => {
       }}
     >
       <Container 
-        maxWidth="md" 
+        maxWidth="lg" 
         sx={{ 
-          py: 2,
-          px: { xs: 2, sm: 3 },
+          py: { xs: 2, sm: 4 },
+          px: { xs: 1, sm: 2, md: 3 },
           position: 'relative', 
-          zIndex: 2,
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center'
+          zIndex: 2 
         }}
       >
         <motion.div
@@ -143,39 +138,47 @@ const CountryPhotos = () => {
             sx={{
               backgroundColor: 'rgba(13, 31, 45, 0.85)',
               backdropFilter: 'blur(10px)',
-              borderRadius: '16px',
-              p: { xs: 2, sm: 3 },
-              position: 'relative',
+              borderRadius: { xs: '8px', sm: '16px' },
+              padding: { xs: '16px', sm: '24px' },
+              marginBottom: '24px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              maxHeight: 'calc(100vh - 48px)',
-              width: '100%'
             }}
           >
             <Box sx={{ 
               display: 'flex', 
-              justifyContent: 'space-between', 
               alignItems: 'center', 
-              mb: 2,
-              minHeight: '48px'
+              justifyContent: 'space-between',
+              mb: { xs: 2, sm: 3 },
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: { xs: 1, sm: 0 }
             }}>
               <Typography
                 variant="h4"
                 sx={{
                   color: '#B8C5D1',
+                  fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
                   fontWeight: 600,
+                  textAlign: { xs: 'center', sm: 'left' },
                 }}
               >
                 {countryName}
               </Typography>
-              <Box>
+
+              <Box sx={{ 
+                display: 'flex', 
+                gap: 1,
+                flexWrap: 'wrap',
+                justifyContent: 'center'
+              }}>
                 <IconButton
                   onClick={handleRotateLeft}
                   sx={{
                     color: '#B8C5D1',
-                    mr: 1,
+                    backgroundColor: 'rgba(13, 31, 45, 0.5)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(13, 31, 45, 0.7)',
+                    },
                   }}
                 >
                   <RotateLeftIcon />
@@ -184,7 +187,10 @@ const CountryPhotos = () => {
                   onClick={handleRotateRight}
                   sx={{
                     color: '#B8C5D1',
-                    mr: 1,
+                    backgroundColor: 'rgba(13, 31, 45, 0.5)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(13, 31, 45, 0.7)',
+                    },
                   }}
                 >
                   <RotateRightIcon />
@@ -193,6 +199,10 @@ const CountryPhotos = () => {
                   onClick={handleClose}
                   sx={{
                     color: '#B8C5D1',
+                    backgroundColor: 'rgba(13, 31, 45, 0.5)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(13, 31, 45, 0.7)',
+                    },
                   }}
                 >
                   <CloseIcon />
@@ -209,8 +219,9 @@ const CountryPhotos = () => {
                 justifyContent: 'center',
                 overflow: 'hidden',
                 minHeight: 0,
-                aspectRatio: '16/9', 
-                backgroundColor: 'rgba(13, 31, 45, 0.3)', 
+                aspectRatio: { xs: '4/3', sm: '16/9' },
+                backgroundColor: 'rgba(13, 31, 45, 0.3)',
+                borderRadius: { xs: '4px', sm: '8px' },
               }}
             >
               {loading ? (
@@ -304,27 +315,24 @@ const CountryPhotos = () => {
               )}
             </Box>
 
-            <Box sx={{ mt: 2, minHeight: '60px' }}>
+            <Box sx={{ 
+              mt: { xs: 1, sm: 2 },
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 1,
+              flexWrap: 'wrap',
+              px: { xs: 1, sm: 2 }
+            }}>
               <Typography
-                sx={{
-                  color: '#D5DFE9',
-                  textAlign: 'center',
-                  fontSize: '1.1rem',
-                  mb: 1,
-                  display: 'none',
-                }}
-              >
-                {photos[currentPhotoIndex]}
-              </Typography>
-              <Typography
+                variant="body1"
                 sx={{
                   color: '#B8C5D1',
                   textAlign: 'center',
-                  fontSize: '0.9rem',
-                  display: 'none',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                 }}
               >
-                {currentPhotoIndex + 1} / {photos.length}
+                Photo {currentPhotoIndex + 1} of {photos.length}
               </Typography>
             </Box>
           </Paper>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Container, Tooltip, IconButton } from '@mui/material';
+import { Box, Typography, Paper, Container, Tooltip, IconButton, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { motion } from 'framer-motion';
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
@@ -69,6 +69,8 @@ const Photos = () => {
     }
   };
 
+  const countries = Object.keys(photos);
+
   return (
     <Box
       sx={{
@@ -92,125 +94,35 @@ const Photos = () => {
         },
       }}
     >
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Paper 
-            elevation={3} 
-            sx={{
-              backgroundColor: 'rgba(13, 31, 45, 0.85)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '16px',
-              padding: '24px',
-              marginBottom: '24px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-              position: 'relative', 
-            }}
-          >
-            <IconButton
-              onClick={() => navigate('/')}
-              sx={{
-                position: 'absolute',
-                right: '16px',
-                top: '16px',
-                color: '#B8C5D1',
-                zIndex: 3,
-                '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                }
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography 
-              variant="h3" 
-              sx={{ 
-                color: '#B8C5D1',
-                marginBottom: '16px',
-                fontWeight: 600,
-                borderBottom: '2px solid rgba(99, 140, 177, 0.5)',
-                paddingBottom: '8px',
-                paddingRight: '48px', 
-              }}
-            >
-              Travel Photography
-            </Typography>
-            
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                color: '#D5DFE9',
-                marginBottom: '24px'
-              }}
-            >
-              Explore my photography journey around the world. Click on the highlighted countries to view photos from that location.
-            </Typography>
-
-            <Box sx={{ mb: 4 }}>
-              <ComposableMap
-                projection="geoMercator"
-                projectionConfig={{
-                  scale: 150,
-                  center: [0, 30]
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          {countries.map((country) => (
+            <Grid item xs={4} sm={4} md={4} key={country}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 2,
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease-in-out',
+                  '&:hover': {
+                    transform: 'scale(1.02)',
+                  },
                 }}
+                onClick={() => handleCountryClick({ properties: { name: country } })}
               >
-                <Geographies geography={geoUrl}>
-                  {({ geographies }) =>
-                    geographies.map((geo) => {
-                      const countryName = getPhotoCountryName(geo.properties.name);
-                      const isActive = !!countryName;
-                      return (
-                        <Tooltip
-                          key={geo.rsmKey}
-                          title={isActive ? countryName : ""}
-                          arrow
-                          placement="top"
-                        >
-                          <g>
-                            <Geography
-                              geography={geo}
-                              onClick={isActive ? () => handleCountryClick(geo) : undefined}
-                              style={{
-                                default: {
-                                  fill: isActive ? "#638CB1" : "#243B53",
-                                  stroke: "#FFFFFF",
-                                  strokeWidth: 0.5,
-                                  outline: "none",
-                                  cursor: isActive ? "pointer" : "default",
-                                  opacity: isActive ? 1 : 0.5,
-                                },
-                                hover: {
-                                  fill: isActive ? "#7FA8CD" : "#243B53",
-                                  stroke: "#FFFFFF",
-                                  strokeWidth: 0.5,
-                                  outline: "none",
-                                  cursor: isActive ? "pointer" : "default",
-                                  opacity: isActive ? 1 : 0.5,
-                                },
-                                pressed: {
-                                  fill: isActive ? "#638CB1" : "#243B53",
-                                  stroke: "#FFFFFF",
-                                  strokeWidth: 0.5,
-                                  outline: "none",
-                                  cursor: isActive ? "pointer" : "default",
-                                  opacity: isActive ? 1 : 0.5,
-                                },
-                              }}
-                            />
-                          </g>
-                        </Tooltip>
-                      );
-                    })
-                  }
-                </Geographies>
-              </ComposableMap>
-            </Box>
-          </Paper>
-        </motion.div>
+                <Typography variant="h6" component="h2" gutterBottom sx={{ 
+                  fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                  textAlign: 'center'
+                }}>
+                  {country}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </Box>
   );
