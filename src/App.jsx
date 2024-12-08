@@ -142,10 +142,10 @@ const AppContent = () => {
                 About Me
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8 }}>
-                I'm a passionate Full Stack Software Developer currently working at Citi. Outside of work I also enjoying creating side projects that you can view in my Portfolio.
+                I'm a passionate Full Stack Software Developer currently working at Citi. I also enjoying creating side projects that you can view in my Portfolio.
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8 }}>
-                I love spending time with friends and family. On my free time I like staying active through excercise and playing sports like tennis, and soccer. 
+                Outside of work I love spending time with friends and family. On my free time I like staying active through excercise and playing sports like tennis, and soccer. 
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 1, lineHeight: 1.8 }}>
                 I am most passionate about capturing moments, people, and the wonders of the world through travelling and photography.
@@ -269,22 +269,24 @@ const AppContent = () => {
                 {/* Welcome Section */}
                 <Box
                   sx={{
-                    position: 'fixed',
-                    left: '150px',
-                    top: '45%',
-                    transform: 'translateY(-50%)',
-                    width: '300px',
-                    minHeight: '450px',
+                    position: { xs: 'static', md: 'fixed' },
+                    margin: { xs: '20px auto', md: 0 },
+                    left: { md: '150px' },
+                    top: { md: '45%' },
+                    transform: { md: 'translateY(-50%)' },
+                    width: { xs: '90%', sm: '300px' },
+                    maxWidth: '300px',
+                    minHeight: { xs: 'auto', md: '450px' },
                     backgroundColor: 'rgba(255, 255, 255, 0.1)',
                     backdropFilter: 'blur(10px)',
                     borderRadius: '15px',
-                    padding: '30px 20px',
+                    padding: { xs: '20px 15px', md: '30px 20px' },
                     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '25px',
+                    gap: { xs: '15px', md: '25px' },
                     zIndex: 10
                   }}
                 >
@@ -322,8 +324,8 @@ const AppContent = () => {
                     }}
                   >
                     {isEuropeanUser 
-                      ? "I'm a passionate Full Stack Software Developer working in Toronto, and I also reside in Italy part-time."
-                      : "I'm a passionate Full Stack Software Developer based in Toronto."}
+                      ? "I'm a Full Stack Software Developer for Citi working in Toronto, and I also reside in Italy part-time."
+                      : "I'm a Full Stack Software Developer for Citi based in Toronto."}
                   </Typography>
                 </Box>
               </motion.div>
