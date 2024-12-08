@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Typography, Paper, Container, IconButton } from '@mui/material';
+import { Box, Typography, Paper, Container, IconButton, CircularProgress } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -209,83 +209,99 @@ const CountryPhotos = () => {
                 justifyContent: 'center',
                 overflow: 'hidden',
                 minHeight: 0,
+                aspectRatio: '16/9', 
+                backgroundColor: 'rgba(13, 31, 45, 0.3)', 
               }}
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentPhotoIndex}
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ duration: 0.3 }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
+              {loading ? (
+                <Box
+                  sx={{
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
                   }}
                 >
-                  <Box
-                    sx={{
-                      position: 'relative',
+                  <CircularProgress sx={{ color: '#B8C5D1' }} />
+                </Box>
+              ) : (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentPhotoIndex}
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.3 }}
+                    style={{
                       width: '100%',
                       height: '100%',
                       display: 'flex',
+                      flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
                   >
-                    <img
-                      src={photos[currentPhotoIndex]}
-                      alt={photos[currentPhotoIndex]}
-                      onError={handleImageError}
-                      onContextMenu={preventRightClick}
-                      style={{
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        objectFit: 'contain',
-                        transform: `rotate(${rotation}deg)`,
-                        transition: 'transform 0.3s ease',
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none',
-                        MozUserSelect: 'none',
-                        msUserSelect: 'none',
-                      }}
-                      draggable="false"
-                    />
-                    <IconButton
-                      onClick={handlePrevious}
+                    <Box
                       sx={{
-                        position: 'absolute',
-                        left: 0,
-                        color: '#B8C5D1',
-                        backgroundColor: 'rgba(13, 31, 45, 0.5)',
-                        '&:hover': {
-                          backgroundColor: 'rgba(13, 31, 45, 0.7)',
-                        },
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
-                      <ArrowBackIcon />
-                    </IconButton>
-                    <IconButton
-                      onClick={handleNext}
-                      sx={{
-                        position: 'absolute',
-                        right: 0,
-                        color: '#B8C5D1',
-                        backgroundColor: 'rgba(13, 31, 45, 0.5)',
-                        '&:hover': {
-                          backgroundColor: 'rgba(13, 31, 45, 0.7)',
-                        },
-                      }}
-                    >
-                      <ArrowForwardIcon />
-                    </IconButton>
-                  </Box>
-                </motion.div>
-              </AnimatePresence>
+                      <img
+                        src={photos[currentPhotoIndex]}
+                        alt={`Photo ${currentPhotoIndex + 1} of ${photos.length}`}
+                        onError={handleImageError}
+                        onContextMenu={preventRightClick}
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          objectFit: 'contain',
+                          transform: `rotate(${rotation}deg)`,
+                          transition: 'transform 0.3s ease',
+                          userSelect: 'none',
+                          WebkitUserSelect: 'none',
+                          MozUserSelect: 'none',
+                          msUserSelect: 'none',
+                        }}
+                        draggable="false"
+                      />
+                      <IconButton
+                        onClick={handlePrevious}
+                        sx={{
+                          position: 'absolute',
+                          left: 0,
+                          color: '#B8C5D1',
+                          backgroundColor: 'rgba(13, 31, 45, 0.5)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(13, 31, 45, 0.7)',
+                          },
+                        }}
+                      >
+                        <ArrowBackIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={handleNext}
+                        sx={{
+                          position: 'absolute',
+                          right: 0,
+                          color: '#B8C5D1',
+                          backgroundColor: 'rgba(13, 31, 45, 0.5)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(13, 31, 45, 0.7)',
+                          },
+                        }}
+                      >
+                        <ArrowForwardIcon />
+                      </IconButton>
+                    </Box>
+                  </motion.div>
+                </AnimatePresence>
+              )}
             </Box>
 
             <Box sx={{ mt: 2, minHeight: '60px' }}>
