@@ -17,35 +17,47 @@ const CountryPhotos = () => {
   const [error, setError] = useState(null);
   const [rotation, setRotation] = useState(0);
 
-  useEffect(() => {
-    const loadPhotoData = async () => {
+  const fetchPhotos = async () => {
+    try {
       setLoading(true);
-      setError(null);
-      try {
+      let photoList;
+
+      if (import.meta.env.DEV) {
+        // In development, use the API endpoint
         const response = await fetch(`/api/photos/${encodeURIComponent(countryName)}`);
         if (!response.ok) {
-          throw new Error('Failed to load photos directory');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
-        const imageFiles = await response.json();
-        if (imageFiles.length > 0) {
-          const photoUrls = imageFiles.map(file => `/photos/${countryName}/${encodeURIComponent(file.name)}`);
-          console.log('Found photos:', photoUrls);
-          setPhotos(photoUrls);
-        } else {
-          console.error('No photos found for country:', countryName);
-          navigate('/photos');
+        photoList = await response.json();
+      } else {
+        // In production, use the static JSON file
+        const response = await fetch('/photoData.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      } catch (error) {
-        console.error('Error loading photos:', error);
-        setError('Failed to load photos');
-        navigate('/photos');
-      } finally {
-        setLoading(false);
+        const allPhotos = await response.json();
+        photoList = allPhotos[countryName] || [];
       }
-    };
 
-    loadPhotoData();
+      if (photoList.length > 0) {
+        const photoUrls = photoList.map(file => `/photos/${countryName}/${encodeURIComponent(file.name)}`);
+        console.log('Found photos:', photoUrls);
+        setPhotos(photoUrls);
+      } else {
+        console.error('No photos found for country:', countryName);
+        navigate('/photos');
+      }
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+      setError('Failed to load photos');
+      navigate('/photos');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPhotos();
   }, [countryName, navigate]);
 
   const handleNext = () => {
