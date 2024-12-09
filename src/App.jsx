@@ -324,8 +324,8 @@ const AppContent = () => {
                     }}
                   >
                     {isEuropeanUser 
-                      ? "I'm a Full Stack Software Developer for Citi working in Toronto, and I also reside in Italy part-time."
-                      : "I'm a Full Stack Software Developer for Citi based in Toronto."}
+                      ? "I'm a Full Stack Software Developer for based in Toronto, and I also reside in Italy part-time."
+                      : "I'm a Full Stack Software Developer for based in Toronto."}
                   </Typography>
                 </Box>
               </motion.div>
