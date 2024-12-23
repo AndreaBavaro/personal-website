@@ -17,6 +17,7 @@ const baseResume = {
       location: "Toronto, CA",
       date: "May 2023 - Present*",
       bullets: [
+        " Contributed to enhancing the Citi Velocity platform by developing and improving user experience for clients accessing financial data.",
         "Implemented test-driven development for microservices—writing JUnit test cases to achieve 80% code coverage in SonarQube—and developed and tested APIs using Java Spring Boot, Postman, and GraphQL.",
         "Contributed to entire software development life cycle, using Docker, Harness, and Redhat.",
         "Migrated 20+ microservices from Swagger 2 to OpenAPI 3, integrated Swagger UI for enhanced documentation, and configured and tested gateway and commons repositories to ensure reliable and maintainable services."

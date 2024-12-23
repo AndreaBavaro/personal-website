@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Container, Tooltip, IconButton, Grid } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { motion } from 'framer-motion';
+import { Box, Typography, Paper, Container, TextField, Alert, Tooltip } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { useNavigate } from 'react-router-dom';
 
@@ -24,6 +23,10 @@ const countryNameMapping = {
 const Photos = () => {
   const navigate = useNavigate();
   const [photos, setPhotos] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchMessage, setSearchMessage] = useState(null);
+  const [tooltipContent, setTooltipContent] = useState("");
+  const [photoCount, setPhotoCount] = useState({});
 
   useEffect(() => {
     const loadPhotoData = async () => {
@@ -32,9 +35,17 @@ const Photos = () => {
         const data = await response.json();
         console.log('Loaded photo data:', data);
         setPhotos(data);
+
+        // Load photo counts
+        const counts = {};
+        for (const [country, paths] of Object.entries(data)) {
+          counts[country] = paths.length;
+        }
+        setPhotoCount(counts);
       } catch (error) {
         console.error('Error loading photo data:', error);
         setPhotos({});
+        setPhotoCount({});
       }
     };
 
@@ -69,7 +80,39 @@ const Photos = () => {
     }
   };
 
-  const countries = Object.keys(photos);
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    
+    if (!query) {
+      setSearchMessage(null);
+      return;
+    }
+
+    const searchResults = Object.keys(photos).filter(country => 
+      country.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (searchResults.length > 0) {
+      const country = searchResults[0];
+      setSearchMessage({
+        type: 'success',
+        text: `Found photos from ${country}!`,
+        country: country
+      });
+    } else {
+      setSearchMessage({
+        type: 'info',
+        text: "Sorry, I haven't been there yet!"
+      });
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && searchMessage?.type === 'success') {
+      navigate(`/photos/${searchMessage.country}`);
+    }
+  };
 
   return (
     <Box
@@ -94,35 +137,143 @@ const Photos = () => {
         },
       }}
     >
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {countries.map((country) => (
-            <Grid item xs={4} sm={4} md={4} key={country}>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: 2,
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s ease-in-out',
-                  '&:hover': {
-                    transform: 'scale(1.02)',
+      <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
+        <Box sx={{ mb: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+          <Typography variant="h4" component="h1" sx={{ 
+            color: 'white', 
+            textAlign: 'center'
+          }}>
+            Photo Locations
+          </Typography>
+          <Box sx={{ width: '100%', maxWidth: 500 }}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Search for a country..."
+              value={searchQuery}
+              onChange={handleSearch}
+              onKeyPress={handleKeyPress}
+              sx={{
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: 1,
+                '& .MuiOutlinedInput-root': {
+                  color: 'white',
+                  '& fieldset': {
+                    borderColor: 'rgba(255, 255, 255, 0.23)',
                   },
-                }}
-                onClick={() => handleCountryClick({ properties: { name: country } })}
-              >
-                <Typography variant="h6" component="h2" gutterBottom sx={{ 
-                  fontSize: { xs: '1.1rem', sm: '1.25rem' },
-                  textAlign: 'center'
-                }}>
-                  {country}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#2a9d8f',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(255, 255, 255, 0.7)',
+                },
+                '& .MuiInputBase-input::placeholder': {
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  opacity: 1,
+                },
+              }}
+            />
+            <AnimatePresence>
+              {searchMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  style={{ marginTop: '8px' }}
+                >
+                  <Alert 
+                    severity={searchMessage.type === 'success' ? 'success' : 'info'}
+                    sx={{
+                      backgroundColor: searchMessage.type === 'success' 
+                        ? 'rgba(42, 157, 143, 0.1)' 
+                        : 'rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      '& .MuiAlert-icon': {
+                        color: searchMessage.type === 'success' ? '#2a9d8f' : 'white',
+                      },
+                    }}
+                  >
+                    {searchMessage.text}
+                    {searchMessage.type === 'success' && (
+                      <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
+                        Press Enter to view photos
+                      </Typography>
+                    )}
+                  </Alert>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Box>
+        </Box>
+        <Box sx={{ width: '100%', height: '75vh' }}>
+          <ComposableMap
+            projection="geoMercator"
+            projectionConfig={{
+              scale: 180,
+            }}
+          >
+            <Geographies geography={geoUrl}>
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const countryName = getPhotoCountryName(geo.properties.name);
+                  const tooltipText = countryName || geo.properties.name;
+                  
+                  return (
+                    <Tooltip
+                      key={geo.rsmKey}
+                      title={tooltipText}
+                      arrow
+                      placement="top"
+                      sx={{
+                        '& .MuiTooltip-tooltip': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                          color: '#1a1a1a',
+                          fontSize: '0.875rem',
+                          padding: '8px 12px',
+                          borderRadius: '4px',
+                        },
+                        '& .MuiTooltip-arrow': {
+                          color: 'rgba(255, 255, 255, 0.9)',
+                        },
+                      }}
+                    >
+                      <Geography
+                        geography={geo}
+                        onClick={() => countryName && handleCountryClick(geo)}
+                        style={{
+                          default: {
+                            fill: countryName ? "#2a9d8f" : "#333333",
+                            stroke: "#FFFFFF",
+                            strokeWidth: 0.5,
+                            outline: "none",
+                          },
+                          hover: {
+                            fill: countryName ? "#e76f51" : "#333333",
+                            stroke: "#FFFFFF",
+                            strokeWidth: 0.5,
+                            outline: "none",
+                            cursor: countryName ? "pointer" : "default",
+                          },
+                          pressed: {
+                            fill: countryName ? "#e76f51" : "#333333",
+                            stroke: "#FFFFFF",
+                            strokeWidth: 0.5,
+                            outline: "none",
+                          },
+                        }}
+                      />
+                    </Tooltip>
+                  );
+                })
+              }
+            </Geographies>
+          </ComposableMap>
+        </Box>
       </Container>
     </Box>
   );
