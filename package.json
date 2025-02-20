@@ -1,0 +1,59 @@
+{
+  "name": "personal-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node scripts/generatePhotoData.js",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prebuild"
+    }
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/poppins": "^5.0.8",
+    "@mui/icons-material": "^5.15.6",
+    "@mui/material": "^5.15.6",
+    "@react-google-maps/api": "^2.20.6",
+    "@react-spring/web": "^9.7.5",
+    "base64-url": "^2.3.3",
+    "express-rate-limit": "^7.5.0",
+    "file-saver": "^2.0.5",
+    "framer-motion": "^11.0.3",
+    "helmet": "^8.0.0",
+    "jszip": "^3.10.1",
+    "personal-website": "file:",
+    "react": "^18.2.0",
+    "react-calendly": "^4.3.1",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.3",
+    "react-scroll": "^1.9.0",
+    "react-simple-maps": "^3.0.0",
+    "react-tooltip": "^5.28.0",
+    "uid-safe": "^2.1.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-security": "^3.0.1",
+    "husky": "^9.1.7",
+    "sharp": "^0.33.5",
+    "vite": "^6.1.1"
+  }
+}

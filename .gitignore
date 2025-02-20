@@ -1,0 +1,123 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+dist
+dist-ssr
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Security
+*.pem
+*.key
+*.cert
+.npmrc
+
+# Build output
+build/
+dist/
+out/
+.next/
+.nuxt/
+.cache/
+
+# Testing
+coverage/
+.nyc_output/
+cypress/videos/
+cypress/screenshots/
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+tmp/
+temp/
+
+# OS generated files
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+._*
+
+# IDE specific files
+.vscode-test/
+*.sublime-workspace
+*.sublime-project
+.settings/
+.project
+.classpath
+.factorypath
+*.iml
+.idea/
+
+# Local development
+*.dev.js
+*.dev.jsx
+*.local.js
+*.local.jsx
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# API keys and secrets
+.env*
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+.credentials/
+credentials.json
+service-account.json
+
+# Dependency lock files (keep one based on your package manager)
+yarn.lock
+package-lock.json
+# pnpm-lock.yaml
+
+# Debug
+.debug/
+debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.bak
+*.swp
+*.swo
+*~
