@@ -54,6 +54,6 @@
     "eslint-plugin-security": "^3.0.1",
     "husky": "^9.1.7",
     "sharp": "^0.33.5",
-    "vite": "^6.1.1"
+    "vite": "^6.2.1"
   }
 }
