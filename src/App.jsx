@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import Photos from './components/Photos';
 import CountryPhotos from './components/CountryPhotos';
 import SecureImage from './components/SecureImage';
+import OAuthRedirect from './components/OAuthRedirect';
 import { isEurope } from './utils/geolocation';
 
 const NavigationButtons = ({ activeSection, onSectionChange }) => {
@@ -324,6 +325,7 @@ function App() {
           <Route path="/" element={<AppContent />} />
           <Route path="/photos" element={<Photos />} />
           <Route path="/photos/:countryName" element={<CountryPhotos />} />
+          <Route path="/oauth/callback" element={<OAuthRedirect />} />
         </Routes>
       </Router>
     </MuiThemeProvider>
