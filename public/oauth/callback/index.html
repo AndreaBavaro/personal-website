@@ -9,7 +9,8 @@
         const queryParams = window.location.search;
         
         // Redirect to the React app's OAuth callback route with the same query parameters
-        window.location.href = '/#/oauth/callback' + queryParams;
+        // When using HashRouter, we need to make sure we're at the root of the site first
+        window.location.replace(window.location.origin + '/#/oauth/callback' + queryParams);
     </script>
 </head>
 <body>

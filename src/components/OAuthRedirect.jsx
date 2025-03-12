@@ -55,6 +55,7 @@ const OAuthRedirect = () => {
 
         // Optional: Redirect back to home page after a delay
         setTimeout(() => {
+          // When using HashRouter, we need to use relative paths
           navigate('/');
         }, 3000);
       } catch (error) {
