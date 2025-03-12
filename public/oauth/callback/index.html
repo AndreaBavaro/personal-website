@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Callback</title>
+    <script>
+        // Get the current URL's query parameters
+        const queryParams = window.location.search;
+        
+        // Redirect to the React app's OAuth callback route with the same query parameters
+        window.location.href = '/#/oauth/callback' + queryParams;
+    </script>
+</head>
+<body>
+    <p>Redirecting to application...</p>
+</body>
+</html>

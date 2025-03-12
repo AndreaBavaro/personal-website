@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hummer - Automated Zoom Interview Assistant</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .hero {
+            background: linear-gradient(135deg, #0d1f2d 0%, #1a3a52 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .features {
+            padding: 80px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .how-it-works {
+            background-color: #f2f7fb;
+            padding: 80px 0;
+        }
+        .how-it-works-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .step {
+            display: flex;
+            margin-bottom: 50px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background-color: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex-grow: 1;
+        }
+        .step-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .testimonials {
+            padding: 80px 0;
+            background-color: white;
+        }
+        .testimonials-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .testimonial {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .testimonial-author {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .testimonial-position {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .footer-links {
+            margin: 20px 0;
+        }
+        .footer-links a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #2c3e50;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .step {
+                flex-direction: column;
+            }
+            .step-number {
+                margin-bottom: 15px;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Hummer</h1>
+            <p>The intelligent Zoom assistant that automates interview recording, transcription, and emotional analysis</p>
+            <a href="https://marketplace.zoom.us" class="cta-button">Get Started with Hummer</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Why Choose Hummer?</h2>
+        <p class="section-subtitle">Hummer transforms your interview process with powerful AI-driven tools designed to capture every detail and insight.</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3 class="feature-title">Automated Transcription</h3>
+                <p>Get accurate, speaker-identified transcripts of your interviews without typing a single word. Focus on the conversation, not note-taking.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">Emotional Analysis</h3>
+                <p>Gain deeper insights with HUME AI technology that analyzes vocal patterns to detect confidence, enthusiasm, stress, and more.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3 class="feature-title">Time-Saving</h3>
+                <p>Eliminate manual recording and transcription. Hummer joins your meetings automatically and handles everything behind the scenes.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Privacy-Focused</h3>
+                <p>Built with privacy in mind. Hummer notifies all participants of recording and gives you complete control over your data.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Comprehensive Reports</h3>
+                <p>Access detailed reports with transcripts, emotional analysis, and key moments to make better hiring decisions.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">Seamless Integration</h3>
+                <p>Integrates directly with Zoom. No complicated setup or additional software required.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="how-it-works-content">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Install Hummer from Zoom Marketplace</h3>
+                    <p>Add Hummer to your Zoom account with just a few clicks through the Zoom App Marketplace.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Enter Your Meeting URL</h3>
+                    <p>Paste your Zoom meeting URL into the Hummer dashboard and click "Join Meeting".</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Hummer Joins Your Meeting</h3>
+                    <p>Hummer automatically joins your meeting, announces itself, and begins recording.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 class="step-title">Conduct Your Interview</h3>
+                    <p>Focus on your conversation while Hummer works silently in the background.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3 class="step-title">Access Your Results</h3>
+                    <p>After the meeting ends, access your transcript, recording, and emotional analysis in your Hummer dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2 class="section-title">What Our Users Say</h2>
+        <div class="testimonials-content">
+            <div class="testimonial">
+                <p class="testimonial-text">"Hummer has completely transformed our interview process. The emotional analysis gives us insights we never had before, helping us identify the best candidates with confidence."</p>
+                <p class="testimonial-author">Sarah Johnson</p>
+                <p class="testimonial-position">HR Director, TechInnovate</p>
+            </div>
+            
+            <div class="testimonial">
+                <p class="testimonial-text">"The time we save with automated transcription is incredible. Our hiring managers can now review interviews quickly and focus on making decisions rather than taking notes."</p>
+                <p class="testimonial-author">Michael Chen</p>
+                <p class="testimonial-position">Talent Acquisition Lead, GrowthWave</p>
+            </div>
+            
+            <div class="testimonial">
+                <p class="testimonial-text">"As someone who conducts multiple interviews daily, Hummer has been a game-changer. The accuracy of the transcriptions and the emotional insights have helped us make better hiring decisions."</p>
+                <p class="testimonial-author">Jessica Williams</p>
+                <p class="testimonial-position">Senior Recruiter, FutureForce</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Hummer. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="./privacy.html">Privacy Policy</a>
+                <a href="./terms.html">Terms of Use</a>
+                <a href="./support.html">Support</a>
+                <a href="./documentation.html">Documentation</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
