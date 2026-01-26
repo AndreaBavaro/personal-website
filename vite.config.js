@@ -13,7 +13,23 @@ export default defineConfig({
         server.middlewares.use('/api/photos', (req, res, next) => {
           try {
             const requestPath = req.url === '/' ? '' : decodeURIComponent(req.url);
-            const directoryPath = path.join('public/photos', requestPath);
+            
+            // Prevent path traversal attacks
+            if (requestPath.includes('..') || requestPath.includes('~')) {
+              res.statusCode = 403;
+              res.end('Forbidden');
+              return;
+            }
+            
+            const baseDir = path.resolve('public/photos');
+            const directoryPath = path.resolve(path.join('public/photos', requestPath));
+            
+            // Ensure resolved path is within the base directory
+            if (!directoryPath.startsWith(baseDir)) {
+              res.statusCode = 403;
+              res.end('Forbidden');
+              return;
+            }
             
             // Check if path exists and is a directory
             const stats = fs.statSync(directoryPath);
@@ -71,7 +87,7 @@ export default defineConfig({
                   "script-src 'self' 'unsafe-inline' https://assets.calendly.com",
                   "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
                   "frame-src 'self' https://calendly.com",
-                  "connect-src 'self' https://api.calendly.com",
+                  "connect-src 'self' https://api.calendly.com https://ipapi.co https://api.emailjs.com",
                   "img-src 'self' data: https://assets.calendly.com",
                   "font-src 'self' data:",
                   "object-src 'none'",
@@ -97,7 +113,7 @@ export default defineConfig({
         "script-src 'self' 'unsafe-inline' https://assets.calendly.com",
         "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
         "frame-src 'self' https://calendly.com",
-        "connect-src 'self' https://api.calendly.com",
+        "connect-src 'self' https://api.calendly.com https://ipapi.co https://api.emailjs.com",
         "img-src 'self' data: https://assets.calendly.com https://calendly.com",
         "font-src 'self' data: https://assets.calendly.com",
         "form-action 'self'",

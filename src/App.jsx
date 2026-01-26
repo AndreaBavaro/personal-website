@@ -17,9 +17,8 @@ import { isEurope } from './utils/geolocation';
 const NavigationButtons = ({ activeSection, onSectionChange }) => {
   const buttonStyle = (section) => ({
     borderRadius: '50px',
-    padding: '12px 30px',
-    margin: '10px',
-    fontSize: '1.1rem',
+    padding: { xs: '10px 20px', sm: '12px 28px' },
+    fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
     textTransform: 'none',
     color: 'white',
     backdropFilter: 'blur(10px)',
@@ -50,8 +49,12 @@ const NavigationButtons = ({ activeSection, onSectionChange }) => {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        gap: 2,
-        mb: 4
+        gap: { xs: 1, sm: 1.5, md: 2 },
+        mb: { xs: 2, md: 4 },
+        px: { xs: 2, sm: 0 },
+        width: '100%',
+        maxWidth: '600px',
+        mx: 'auto'
       }}
     >
       <Button onClick={() => handleClick('about')} sx={buttonStyle('about')}>
@@ -98,8 +101,8 @@ const AppContent = () => {
               sx={{
                 backgroundColor: 'rgba(13, 31, 45, 0.85)',
                 backdropFilter: 'blur(10px)',
-                borderRadius: '16px',
-                padding: '24px',
+                borderRadius: { xs: '12px', md: '16px' },
+                padding: { xs: '16px', sm: '20px', md: '24px' },
                 marginBottom: '24px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
@@ -113,22 +116,23 @@ const AppContent = () => {
                   fontWeight: 600,
                   borderBottom: '2px solid rgba(99, 140, 177, 0.5)',
                   paddingBottom: '8px',
+                  fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' }
                 }}
               >
                 About Me
               </Typography>
-              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8 }}>
+              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
                 I'm a passionate Full Stack Software Developer currently working at Citi. I also enjoying creating side projects that you can view in my Portfolio.
               </Typography>
-              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8 }}>
+              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
                 Outside of work I love spending time with friends and family. On my free time I like staying active through excercise and playing sports like tennis, and soccer. 
               </Typography>
-              <Typography sx={{ color: '#D5DFE9', mb: 1, lineHeight: 1.8 }}>
+              <Typography sx={{ color: '#D5DFE9', mb: 1, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
                 I am most passionate about capturing moments, people, and the wonders of the world through travelling and photography.
               </Typography>
-              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8 }}>
+              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
               </Typography>
-              <Typography sx={{ color: '#D5DFE9', lineHeight: 1.8 }}>
+              <Typography sx={{ color: '#D5DFE9', lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
                 My main goal in life is to improve the lives of others, and make the world a more meaningful place through passionate work and hobbies.
               </Typography>
             </Paper>
@@ -144,8 +148,8 @@ const AppContent = () => {
                     to="/photos"
                     sx={{
                       borderRadius: '50px',
-                      padding: '12px 30px',
-                      fontSize: '1.1rem',
+                      padding: { xs: '10px 24px', sm: '12px 30px' },
+                      fontSize: { xs: '0.95rem', sm: '1.1rem' },
                       textTransform: 'none',
                       color: 'white',
                       backdropFilter: 'blur(10px)',
@@ -205,26 +209,31 @@ const AppContent = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pt: 8,
-          pb: 4
+          minHeight: '100vh',
+          pt: { xs: 4, sm: 6, md: 8 },
+          pb: { xs: 2, md: 4 },
+          px: { xs: 2, sm: 3 }
         }}
       >
         {!activeSection && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
+            style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
           >
             <Typography 
               variant="h2" 
               component="h1" 
               sx={{ 
-                mb: 6,
+                mb: { xs: 3, sm: 4, md: 5 },
                 textAlign: 'center',
                 color: 'white',
                 fontWeight: 600,
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' },
+                px: { xs: 1, sm: 0 }
               }}
             >
               Andrea Wolfgang Diano-Bavaro
@@ -233,47 +242,41 @@ const AppContent = () => {
             {/* Welcome Section */}
             <Box
               sx={{
-                position: { xs: 'static', md: 'fixed' },
-                margin: { xs: '20px auto', md: 0 },
-                left: { md: '150px' },
-                top: { md: '45%' },
-                transform: { md: 'translateY(-50%)' },
-                width: { xs: '90%', sm: '300px' },
-                maxWidth: '300px',
-                minHeight: { xs: 'auto', md: '450px' },
+                width: { xs: '100%', sm: '340px', md: '380px' },
+                maxWidth: '400px',
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
-                borderRadius: '15px',
-                padding: { xs: '20px 15px', md: '30px 20px' },
+                borderRadius: { xs: '12px', md: '16px' },
+                padding: { xs: '20px 16px', sm: '24px 20px', md: '32px 24px' },
                 boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: { xs: '15px', md: '25px' },
-                zIndex: 10
+                gap: { xs: 2, sm: 2.5, md: 3 },
+                mb: { xs: 3, md: 4 }
               }}
             >
               <SecureImage
                 src="/profile.jpg"
                 alt="Andrea Wolfgang"
                 sx={{
-                  width: '180px',
-                  height: '180px',
+                  width: { xs: '120px', sm: '150px', md: '180px' },
+                  height: { xs: '120px', sm: '150px', md: '180px' },
                   borderRadius: '50%',
                   objectFit: 'cover',
                   objectPosition: 'center 35%',
-                  transform: 'scale(0.777) rotate(5deg)',
+                  transform: 'rotate(5deg)',
                   border: '3px solid rgba(255, 255, 255, 0.2)',
-                  marginTop: '20px'
                 }}
               />
               <Typography
                 sx={{
                   color: 'white',
-                  fontSize: '1.3rem',
-                  marginBottom: '0.33rem',
-                  textAlign: 'center'
+                  fontSize: { xs: '1.1rem', sm: '1.2rem', md: '1.3rem' },
+                  fontWeight: 500,
+                  textAlign: 'center',
+                  lineHeight: 1.4
                 }}
               >
                 Welcome to my personally developed website!
@@ -282,13 +285,13 @@ const AppContent = () => {
                 sx={{
                   color: '#8BA6C7',
                   textAlign: 'center',
-                  fontSize: '1.1rem',
+                  fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
                   lineHeight: 1.6
                 }}
               >
                 {isEuropeanUser 
-                  ? "I'm a Full Stack Software Developer for based in Toronto, and I also reside in Italy part-time."
-                  : "I'm a Full Stack Software Developer for based in Toronto."}
+                  ? "I'm a Full Stack Software Developer based in Toronto, and I also reside in Italy part-time."
+                  : "I'm a Full Stack Software Developer based in Toronto."}
               </Typography>
             </Box>
           </motion.div>
@@ -299,7 +302,7 @@ const AppContent = () => {
           onSectionChange={setActiveSection}
         />
 
-        <Box sx={{ width: '100%', mt: activeSection ? 8 : 4 }}>
+        <Box sx={{ width: '100%', mt: activeSection ? { xs: 4, md: 6 } : { xs: 2, md: 4 } }}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
