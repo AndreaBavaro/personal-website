@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, IconButton, TextField, Container, Alert } from '@mui/material';
+import { Box, Typography, IconButton, TextField, Container, Alert, List, ListItem, ListItemButton, ListItemText, Paper } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import PublicIcon from '@mui/icons-material/Public';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
@@ -112,7 +113,8 @@ const Photos = () => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      pt: 4,
+      pt: { xs: 2, sm: 3, md: 4 },
+      px: { xs: 2, sm: 0 },
       '&::before': {
         content: '""',
         position: 'absolute',
@@ -141,13 +143,14 @@ const Photos = () => {
         <CloseIcon />
       </IconButton>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, px: { xs: 2, sm: 3 } }}>
         <Typography 
           variant="h4" 
           sx={{ 
             color: '#fff',
-            mb: 3,
-            textAlign: 'center'
+            mb: { xs: 2, md: 3 },
+            textAlign: 'center',
+            fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' }
           }}
         >
           Travel Photography
@@ -157,7 +160,7 @@ const Photos = () => {
           width: '100%', 
           maxWidth: 500, 
           mx: 'auto', 
-          mb: 4 
+          mb: { xs: 2, md: 4 }
         }}>
           <TextField
             fullWidth
@@ -220,80 +223,162 @@ const Photos = () => {
           </AnimatePresence>
         </Box>
 
+        {/* Main content with map and legend */}
         <Box sx={{ 
+          display: 'flex',
+          gap: 3,
           width: '100%',
-          height: '60vh',
-          position: 'relative',
-          backgroundColor: 'rgba(13, 31, 45, 0.7)',
-          borderRadius: 2,
-          padding: 3,
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
+          height: '75vh',
+          flexDirection: { xs: 'column', md: 'row' }
         }}>
-          <ComposableMap
-            projection="geoMercator"
-            projectionConfig={{
-              scale: 130,
-              center: [0, 20]
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'transparent'
-            }}
-          >
-            <Geographies geography={geoUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => {
-                  const countryName = getPhotoCountryName(geo.properties.name);
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      data-tooltip-id="country-tooltip"
-                      data-tooltip-content={countryName ? `${geo.properties.name} - Click to view photos` : geo.properties.name}
-                      onClick={() => handleCountryClick(geo)}
-                      style={{
-                        default: {
-                          fill: countryName ? '#638CB1' : '#1C3D5A',
-                          stroke: '#0D1F2D',
-                          strokeWidth: 0.5,
-                          outline: 'none',
-                        },
-                        hover: {
-                          fill: countryName ? '#8BA6C7' : '#1C3D5A',
-                          stroke: '#0D1F2D',
-                          strokeWidth: 0.5,
-                          outline: 'none',
-                          cursor: countryName ? 'pointer' : 'default',
-                        },
-                        pressed: {
-                          fill: countryName ? '#8BA6C7' : '#1C3D5A',
-                          stroke: '#0D1F2D',
-                          strokeWidth: 0.5,
-                          outline: 'none',
-                        },
+          {/* Country Legend Sidebar */}
+          <Paper sx={{
+            width: { xs: '100%', md: '280px' },
+            minWidth: { md: '280px' },
+            height: { xs: '200px', md: '100%' },
+            backgroundColor: 'rgba(13, 31, 45, 0.85)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: 2,
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <Box sx={{ 
+              p: 2, 
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1
+            }}>
+              <PublicIcon sx={{ color: '#8BA6C7' }} />
+              <Typography variant="h6" sx={{ color: '#B8C5D1', fontWeight: 600 }}>
+                Countries Visited
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#8BA6C7', ml: 'auto' }}>
+                ({Object.keys(photos).length})
+              </Typography>
+            </Box>
+            <List sx={{ 
+              flex: 1, 
+              overflow: 'auto',
+              py: 0,
+              '&::-webkit-scrollbar': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(99, 140, 177, 0.5)',
+                borderRadius: '3px',
+              },
+            }}>
+              {Object.keys(photos).sort().map((country) => (
+                <ListItem key={country} disablePadding>
+                  <ListItemButton 
+                    onClick={() => navigate(`/photos/${country}`)}
+                    sx={{
+                      py: 1.5,
+                      px: 2,
+                      '&:hover': {
+                        backgroundColor: 'rgba(99, 140, 177, 0.2)',
+                      },
+                    }}
+                  >
+                    <ListItemText 
+                      primary={country}
+                      secondary={`${photos[country]?.length || 0} photos`}
+                      primaryTypographyProps={{
+                        sx: { color: '#D5DFE9', fontWeight: 500 }
+                      }}
+                      secondaryTypographyProps={{
+                        sx: { color: '#8BA6C7', fontSize: '0.8rem' }
                       }}
                     />
-                  );
-                })
-              }
-            </Geographies>
-          </ComposableMap>
-          <Tooltip 
-            id="country-tooltip" 
-            style={{
-              backgroundColor: 'rgba(13, 31, 45, 0.9)',
-              color: '#fff',
-              borderRadius: '4px',
-              padding: '8px 12px',
-              fontSize: '14px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              zIndex: 1000
-            }}
-          />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+
+          {/* Map Container */}
+          <Box sx={{ 
+            flex: 1,
+            height: '100%',
+            position: 'relative',
+            backgroundColor: 'rgba(13, 31, 45, 0.7)',
+            borderRadius: 2,
+            padding: { xs: 2, md: 3 },
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
+          }}>
+            <ComposableMap
+              projection="geoMercator"
+              projectionConfig={{
+                scale: 150,
+                center: [0, 30]
+              }}
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'transparent'
+              }}
+            >
+              <Geographies geography={geoUrl}>
+                {({ geographies }) =>
+                  geographies.map((geo) => {
+                    const countryName = getPhotoCountryName(geo.properties.name);
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        data-tooltip-id="country-tooltip"
+                        data-tooltip-content={countryName ? `${geo.properties.name} - Click to view photos` : geo.properties.name}
+                        onClick={() => handleCountryClick(geo)}
+                        style={{
+                          default: {
+                            fill: countryName ? '#638CB1' : '#1C3D5A',
+                            stroke: '#0D1F2D',
+                            strokeWidth: 0.5,
+                            outline: 'none',
+                          },
+                          hover: {
+                            fill: countryName ? '#8BA6C7' : '#1C3D5A',
+                            stroke: '#0D1F2D',
+                            strokeWidth: 0.5,
+                            outline: 'none',
+                            cursor: countryName ? 'pointer' : 'default',
+                          },
+                          pressed: {
+                            fill: countryName ? '#8BA6C7' : '#1C3D5A',
+                            stroke: '#0D1F2D',
+                            strokeWidth: 0.5,
+                            outline: 'none',
+                          },
+                        }}
+                      />
+                    );
+                  })
+                }
+              </Geographies>
+            </ComposableMap>
+            <Tooltip 
+              id="country-tooltip" 
+              style={{
+                backgroundColor: 'rgba(13, 31, 45, 0.9)',
+                color: '#fff',
+                borderRadius: '4px',
+                padding: '8px 12px',
+                fontSize: '14px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                zIndex: 1000
+              }}
+            />
+          </Box>
         </Box>
       </Container>
     </Box>

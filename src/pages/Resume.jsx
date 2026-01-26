@@ -117,9 +117,9 @@ const Resume = () => {
       >
         <Paper elevation={3} sx={sectionStyle}>
           {/* Header with Download Button */}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: 2, mb: 3 }}>
             <Box sx={{ flex: 1 }}>
-              <Typography variant="h3" sx={{ mb: 0.5, color: '#B8C5D1' }}>{resumeData.header.name}</Typography>
+              <Typography variant="h3" sx={{ mb: 0.5, color: '#B8C5D1', fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}>{resumeData.header.name}</Typography>
               <Typography variant="subtitle1" color="#8BA6C7">
                 {resumeData.header.contact.email} | {resumeData.header.contact.links.map((link, index) => (
                   <React.Fragment key={link.url}>
@@ -143,20 +143,17 @@ const Resume = () => {
               variant="contained"
               startIcon={<DownloadIcon />}
               onClick={handleDownload}
-              sx={{ height: 'fit-content', backgroundColor: 'rgba(99, 140, 177, 0.2)', color: '#B8C5D1', '&:hover': { backgroundColor: 'rgba(99, 140, 177, 0.3)' } }}
+              sx={{ 
+                height: 'fit-content', 
+                backgroundColor: 'rgba(99, 140, 177, 0.2)', 
+                color: '#B8C5D1', 
+                '&:hover': { backgroundColor: 'rgba(99, 140, 177, 0.3)' },
+                width: { xs: '100%', sm: 'auto' },
+                mt: { xs: 1, sm: 0 }
+              }}
             >
               Download PDF
             </Button>
-          </Box>
-
-          {/* Professional Summary */}
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" sx={{ color: '#B8C5D1', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-              <PersonIcon /> Professional Summary
-            </Typography>
-            <Typography sx={{ color: '#D5DFE9', lineHeight: 1.8 }}>
-              {resumeData.summary}
-            </Typography>
           </Box>
 
           {/* Main Content Grid */}
@@ -182,16 +179,6 @@ const Resume = () => {
 
             {/* Right Column */}
             <Grid item xs={12} md={6}>
-              <Section icon={<SchoolIcon color="#B8C5D1" />} title="Education">
-                {resumeData.education.map((education, index) => (
-                  <Box key={index} sx={{ mb: 1.5 }}>
-                    <Typography variant="h6" sx={{ color: '#B8C5D1' }}>{education.school}</Typography>
-                    <Typography variant="subtitle1" sx={{ color: '#8BA6C7' }}>{education.degree}</Typography>
-                    <Typography sx={{ color: '#8BA6C7', mb: 2 }}>{education.location} | {education.date}</Typography>
-                  </Box>
-                ))}
-              </Section>
-
               <Section icon={<CodeIcon color="#B8C5D1" />} title="Projects">
                 {resumeData.projects.map((project, index) => (
                   <Box key={index} sx={{ mb: 2 }}>
@@ -228,8 +215,52 @@ const Resume = () => {
                   </Box>
                 ))}
               </Section>
+
+              <Section icon={<SchoolIcon color="#B8C5D1" />} title="Education">
+                {resumeData.education.map((education, index) => (
+                  <Box key={index} sx={{ mb: 2 }}>
+                    <Typography variant="h6" sx={{ color: '#B8C5D1' }}>{education.school}</Typography>
+                    <Typography variant="subtitle1" sx={{ color: '#8BA6C7' }}>{education.degree}</Typography>
+                    <Typography sx={{ color: '#8BA6C7' }}>{education.location} | {education.date}</Typography>
+                    {education.details && (
+                      <Typography variant="body2" sx={{ color: '#D5DFE9', mt: 0.5 }}>{education.details}</Typography>
+                    )}
+                  </Box>
+                ))}
+              </Section>
             </Grid>
           </Grid>
+
+          {/* Technical Skills */}
+          <Box sx={{ mt: 4 }}>
+            <Typography variant="h5" sx={{ color: '#B8C5D1', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+              <BuildIcon /> Technical Skills
+            </Typography>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle2" sx={{ color: '#8BA6C7', mb: 1 }}>Programming</Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {resumeData.skills?.programming?.map((skill) => (
+                  <Chip key={skill} label={skill} sx={chipStyle} size="small" />
+                ))}
+              </Box>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle2" sx={{ color: '#8BA6C7', mb: 1 }}>AI & Frameworks</Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {resumeData.skills?.aiFrameworks?.map((skill) => (
+                  <Chip key={skill} label={skill} sx={chipStyle} size="small" />
+                ))}
+              </Box>
+            </Box>
+            <Box>
+              <Typography variant="subtitle2" sx={{ color: '#8BA6C7', mb: 1 }}>Tools & Cloud</Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {resumeData.skills?.toolsCloud?.map((skill) => (
+                  <Chip key={skill} label={skill} sx={chipStyle} size="small" />
+                ))}
+              </Box>
+            </Box>
+          </Box>
         </Paper>
       </motion.div>
     </Container>

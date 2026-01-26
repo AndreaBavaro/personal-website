@@ -29,8 +29,8 @@ const Contact = () => {
   const sectionStyle = {
     backgroundColor: 'rgba(13, 31, 45, 0.85)',
     backdropFilter: 'blur(10px)',
-    borderRadius: '16px',
-    padding: '24px',
+    borderRadius: { xs: '12px', md: '16px' },
+    padding: { xs: '16px', sm: '20px', md: '24px' },
     marginBottom: '24px',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
