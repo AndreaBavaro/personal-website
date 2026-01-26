@@ -125,7 +125,7 @@ const AppContent = () => {
                 I'm a passionate Full Stack Software Developer currently working at Citi. I also enjoying creating side projects that you can view in my Portfolio.
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                Outside of work I love spending time with friends and family. On my free time I like staying active through excercise and playing sports like tennis, and soccer. 
+                Outside of work I love spending time with friends and family. On my free time I like staying active through exercise and playing sports like tennis, basketball and soccer. 
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 1, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
                 I am most passionate about capturing moments, people, and the wonders of the world through travelling and photography.
