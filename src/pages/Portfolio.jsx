@@ -41,6 +41,12 @@ const Portfolio = () => {
 
   const projects = [
     {
+      title: 'Nitely (iOS)',
+      description: 'Shipped a Toronto nightlife app to the App Store (110+ users) — a Swift/SwiftUI front end on a Supabase backend (79 tables, 165+ RPCs, 10 edge functions, 24 cron jobs), plus a Next.js admin web app. Built a 10-section weighted recommendation engine (cosine vibe-match, Jaccard music overlap, geo decay) and operationalized Claude Code as a parallel-agent dev pipeline with a custom .claude/skills/ library and git-hook policy enforcement across 50+ Linear tickets.',
+      technologies: ['Swift', 'SwiftUI', 'Supabase (PostgreSQL)', 'Mapbox', 'Next.js', 'Claude Code'],
+      demoLink: null,
+    },
+    {
       title: 'AI Interview Insights Pipeline',
       description: 'Built an automated system to capture Zoom recordings, performing facial sentiment analysis (Hume AI) and LLM-driven transcription to generate comprehensive PDF interview reports.',
       technologies: ['Python', 'Hume AI SDK', 'Zoom SDK', 'OpenAI', 'FPDF'],
@@ -50,18 +56,6 @@ const Portfolio = () => {
       title: 'Wearable Haptic Massage Sleeve',
       description: 'Designed and wired a custom electrical circuit for a self-massaging leg sleeve; programmed an Arduino chip to regulate haptic feedback patterns and motor pressure intervals.',
       technologies: ['Arduino', 'C++', 'Electrical Circuitry', 'Hardware Prototyping'],
-      demoLink: null,
-    },
-    {
-      title: 'Night Finder (iOS)',
-      description: 'Deployed a Toronto-focused discovery app with a custom matching engine and a real-time Supabase backend, using Windsurf for agentic refactoring and rapid prototyping.',
-      technologies: ['Swift', 'Supabase', 'PostgreSQL', 'Windsurf AI'],
-      demoLink: null,
-    },
-    {
-      title: 'OpenAPI Migration Automation Tool',
-      description: 'Engineered a Python-based engine to migrate 20+ microservices from Swagger 2 to OpenAPI 3.0, reducing manual migration effort at Citi by 85%.',
-      technologies: ['Python', 'Regex', 'Java Spring Boot'],
       demoLink: null,
     },
   ];
