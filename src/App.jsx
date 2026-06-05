@@ -3,11 +3,11 @@ import { Box, Typography, Container, Button, CssBaseline, Paper, IconButton, Too
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import { useTheme } from './context/ThemeContext';
 import { useState, useEffect } from 'react';
-import About from './pages/About';
 import Resume from './pages/Resume';
 import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
@@ -322,8 +322,8 @@ const AppContent = () => {
                     src="/profile.jpg"
                     alt="Andrea Wolfgang"
                     sx={{
-                      width: { xs: '116px', md: '140px' },
-                      height: { xs: '116px', md: '140px' },
+                      width: { xs: '140px', md: '172px' },
+                      height: { xs: '140px', md: '172px' },
                       borderRadius: '50%',
                       objectFit: 'cover',
                       objectPosition: 'center 35%',
@@ -384,7 +384,7 @@ const AppContent = () => {
                       Full Stack Developer
                     </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1.25, color: '#d7e2ee', fontSize: { xs: '0.85rem', md: '0.9rem' }, lineHeight: 1.5 }}>
+                  <Typography sx={{ mt: 'auto', pt: 1.5, color: '#d7e2ee', fontSize: { xs: '0.85rem', md: '0.9rem' }, lineHeight: 1.5 }}>
                     <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>2 years</Box> managing projects across Go, Python, and TypeScript.
                   </Typography>
                 </Box>
@@ -419,6 +419,7 @@ const AppContent = () => {
                     ...tileBaseSx,
                     ...tileLinkSx,
                     gridColumn: { sm: '2 / 4' },
+                    justifyContent: 'center',
                     '&:hover': { borderColor: 'rgba(255, 255, 255, 0.32)' },
                   }}
                   onClick={() => setActiveSection('about')}
@@ -439,6 +440,30 @@ const AppContent = () => {
         />
 
         <Box sx={{ width: '100%', mt: activeSection ? { xs: 4, md: 6 } : { xs: 2, md: 4 } }}>
+          {activeSection && (
+            <Box sx={{ maxWidth: '900px', mx: 'auto', mb: 2 }}>
+              <Button
+                onClick={() => setActiveSection(null)}
+                startIcon={<ChevronLeftIcon />}
+                sx={{
+                  color: 'white',
+                  textTransform: 'none',
+                  borderRadius: '50px',
+                  px: 2,
+                  py: 0.75,
+                  backgroundColor: 'rgba(255, 255, 255, 0.10)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  transition: 'all 0.2s ease',
+                  '& .MuiButton-startIcon': { mr: 0.25 },
+                  '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' },
+                }}
+              >
+                Home
+              </Button>
+            </Box>
+          )}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
