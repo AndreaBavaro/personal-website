@@ -64,6 +64,7 @@ const NavigationButtons = ({ activeSection, onSectionChange }) => {
         flexWrap: 'wrap',
         justifyContent: 'center',
         gap: { xs: 1, sm: 1.5, md: 2 },
+        mt: activeSection ? 0 : { xs: 3, md: 6 },
         mb: { xs: 2, md: 4 },
         px: { xs: 2, sm: 0 },
         width: '100%',
@@ -101,7 +102,7 @@ const tileBaseSx = {
 
 const tileLinkSx = {
   cursor: 'pointer',
-  '&:hover': { transform: 'translateY(-3px)', backgroundColor: 'rgba(255, 255, 255, 0.13)' },
+  '&:hover': { transform: 'translateY(-3px)', borderColor: 'rgba(255, 255, 255, 0.32)' },
 };
 
 const tileLabelSx = {
@@ -377,7 +378,7 @@ const AppContent = () => {
                         flexShrink: 0,
                       }}
                     >
-                      <Box component="img" src="/citi-logo.svg" alt="Citi" sx={{ height: 24, display: 'block' }} />
+                      <Box component="img" src="/citi.png" alt="Citi" sx={{ height: 22, display: 'block' }} />
                     </Box>
                     <Typography sx={{ fontWeight: 700, fontSize: { xs: '1rem', md: '1.1rem' }, color: '#fff' }}>
                       Full Stack Developer
@@ -414,7 +415,12 @@ const AppContent = () => {
 
                 {/* About (wide) */}
                 <Box
-                  sx={{ ...tileBaseSx, ...tileLinkSx, gridColumn: { sm: '2 / 4' } }}
+                  sx={{
+                    ...tileBaseSx,
+                    ...tileLinkSx,
+                    gridColumn: { sm: '2 / 4' },
+                    '&:hover': { borderColor: 'rgba(255, 255, 255, 0.32)' },
+                  }}
                   onClick={() => setActiveSection('about')}
                 >
                   <Typography sx={tileLabelSx}>About</Typography>
