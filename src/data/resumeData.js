@@ -12,8 +12,8 @@ const baseResume = {
   },
   skills: {
     programming: ["Go", "Java", "TypeScript", "Node.js", "Python", "Swift", "SQL", "C++", "Arduino/C", "Bash"],
-    aiFrameworks: ["Hume AI", "OpenAI API", "Spring Boot", "Robot Framework", "React", "SwiftUI", "Angular", "Flask", "Pandas"],
-    toolsCloud: ["Supabase", "AWS", "Docker", "Harness", "OpenShift", "GraphQL", "Windsurf AI", "Circuit Design", "Git"]
+    aiFrameworks: ["Anthropic Claude (Claude Code)", "OpenAI API", "Hume AI", "Windsurf AI", "React", "SwiftUI", "Angular", "Flask", "Pandas", "Spring Boot", "Robot Framework"],
+    toolsCloud: ["Supabase", "PostgreSQL", "Oracle SQL", "AWS", "Docker", "Harness", "OpenShift", "GraphQL", "REST APIs", "Agile/Scrum", "Git"]
   },
   experience: [
     {
@@ -22,9 +22,9 @@ const baseResume = {
       location: "Toronto, CA",
       date: "May 2023 - Present*",
       bullets: [
-        "Engineering Automation: Engineered a Python migration engine and a Go \"Update Server,\" reducing manual developer effort by 85% and automating global infrastructure lifecycle updates.",
-        "Developer Tools & Reliability: Spearheaded a UI/UX overhaul of a proprietary VS Code Extension (TypeScript/Node.js) and built a Robot Framework validation layer for global service health monitoring.",
-        "Platform Engineering: Optimized CI/CD pipelines using Docker, Harness, and OpenShift while managing scalable Java (Spring Boot) microservices and GraphQL integrations."
+        "Engineering Automation: Engineered a Python-based migration engine to automate the transition of 20+ microservices from Swagger 2 to OpenAPI 3.0, and built a Go Update Server — reducing manual developer effort by 85% and presenting the solution to international engineering teams.",
+        "Developer Experience: Spearheaded a UI/UX overhaul of a proprietary VS Code Extension (TypeScript/Node.js), modernizing internal workflows and establishing it as the primary productivity tool for the global engineering organization; built a Robot Framework validation layer for service health monitoring.",
+        "Platform Integration: Independently architected a full-stack Python (Streamlit) data visualization dashboard backed by custom Oracle SQL views to track registry onboarding metrics; iterated on stakeholder feedback and migrated the solution into Citi's internal React production UI."
       ]
     },
     {
@@ -62,17 +62,11 @@ const baseResume = {
       ]
     },
     {
-      title: "Night Finder (iOS)",
-      technologies: ["Swift", "Supabase", "PostgreSQL", "Windsurf AI"],
+      title: "Nitely (iOS)",
+      technologies: ["Swift", "SwiftUI", "Supabase (PostgreSQL)", "Mapbox", "Next.js", "Claude Code"],
       bullets: [
-        "Algorithmic Matching Engine: Deployed a Toronto-focused discovery app with a custom matching engine and a real-time Supabase backend, using Windsurf for agentic refactoring and rapid prototyping."
-      ]
-    },
-    {
-      title: "OpenAPI Migration Automation Tool",
-      technologies: ["Python", "Regex", "Java Spring Boot"],
-      bullets: [
-        "Enterprise Automation: Engineered a Python-based engine to migrate 20+ microservices from Swagger 2 to OpenAPI 3.0, reducing manual migration effort at Citi by 85%."
+        "Full-stack iOS app (solo, end-to-end): Shipped a Toronto nightlife app to the App Store (110+ users) with a Swift/SwiftUI front end and a Supabase backend (79 tables, 165+ RPCs, 10 edge functions, 24 cron jobs), plus a Next.js admin web app.",
+        "Recommendation Engine: Built a 10-section weighted recommendation engine (cosine vibe-match, Jaccard music overlap, geo decay) and operationalized Claude Code as a parallel-agent dev pipeline with a custom .claude/skills/ library and git-hook policy enforcement across 50+ Linear tickets."
       ]
     }
   ],
