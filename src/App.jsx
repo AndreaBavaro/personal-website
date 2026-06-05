@@ -64,7 +64,7 @@ const NavigationButtons = ({ activeSection, onSectionChange }) => {
         flexWrap: 'wrap',
         justifyContent: 'center',
         gap: { xs: 1, sm: 1.5, md: 2 },
-        mt: activeSection ? 0 : { xs: 3, md: 6 },
+        mt: activeSection ? 0 : { xs: 2, md: 4 },
         mb: { xs: 2, md: 4 },
         px: { xs: 2, sm: 0 },
         width: '100%',
@@ -385,7 +385,7 @@ const AppContent = () => {
                     </Typography>
                   </Box>
                   <Typography sx={{ mt: 'auto', pt: 1.5, color: '#d7e2ee', fontSize: { xs: '0.85rem', md: '0.9rem' }, lineHeight: 1.5 }}>
-                    <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>2 years</Box> managing projects across Go, Python, and TypeScript.
+                    <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>2 years</Box> shipping automation and developer tooling that cut manual effort 85% — across Go, Python, and TypeScript.
                   </Typography>
                 </Box>
 
