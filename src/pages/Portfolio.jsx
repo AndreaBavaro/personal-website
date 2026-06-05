@@ -1,5 +1,7 @@
 import { Box, Typography, Paper, Grid, Chip, Link } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
 import { motion } from 'framer-motion';
+import { globalResume } from '../data/resumeData';
 
 const Portfolio = () => {
   const sectionStyle = {
@@ -31,34 +33,20 @@ const Portfolio = () => {
   };
 
   const linkStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px',
     color: '#8BA6C7',
     textDecoration: 'none',
+    fontSize: '0.9rem',
+    fontWeight: 500,
     '&:hover': {
       color: '#B8C5D1',
       textDecoration: 'underline',
     },
   };
 
-  const projects = [
-    {
-      title: 'Nitely (iOS)',
-      description: 'Shipped a Toronto nightlife app to the App Store (110+ users) — a Swift/SwiftUI front end on a Supabase backend (79 tables, 165+ RPCs, 10 edge functions, 24 cron jobs), plus a Next.js admin web app. Built a 10-section weighted recommendation engine (cosine vibe-match, Jaccard music overlap, geo decay) and operationalized Claude Code as a parallel-agent dev pipeline with a custom .claude/skills/ library and git-hook policy enforcement across 50+ Linear tickets.',
-      technologies: ['Swift', 'SwiftUI', 'Supabase (PostgreSQL)', 'Mapbox', 'Next.js', 'Claude Code'],
-      demoLink: null,
-    },
-    {
-      title: 'AI Interview Insights Pipeline',
-      description: 'Built an automated system to capture Zoom recordings, performing facial sentiment analysis (Hume AI) and LLM-driven transcription to generate comprehensive PDF interview reports.',
-      technologies: ['Python', 'Hume AI SDK', 'Zoom SDK', 'OpenAI', 'FPDF'],
-      demoLink: null,
-    },
-    {
-      title: 'Wearable Haptic Massage Sleeve',
-      description: 'Designed and wired a custom electrical circuit for a self-massaging leg sleeve; programmed an Arduino chip to regulate haptic feedback patterns and motor pressure intervals.',
-      technologies: ['Arduino', 'C++', 'Electrical Circuitry', 'Hardware Prototyping'],
-      demoLink: null,
-    },
-  ];
+  const projects = globalResume.projects;
 
   return (
     <motion.div
@@ -71,22 +59,28 @@ const Portfolio = () => {
           <Typography variant="h4" sx={{ ...headingStyle, fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' } }}>
             Portfolio
           </Typography>
-          
+
           <Grid container spacing={3}>
-            {projects.map((project, index) => (
-              <Grid item xs={12} key={index}>
+            {projects.map((project) => (
+              <Grid item xs={12} key={project.title}>
                 <Box sx={{ mb: 4 }}>
                   <Typography variant="h5" sx={{ color: '#B8C5D1', mb: 1, fontSize: { xs: '1.1rem', sm: '1.25rem', md: '1.5rem' } }}>
                     {project.title}
                   </Typography>
-                  {project.demoLink && (
-                    <Link href={project.demoLink} target="_blank" rel="noopener noreferrer" sx={linkStyle}>
-                      View Demo →
-                    </Link>
+                  {project.links && (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 1 }}>
+                      {project.links.map((link) => (
+                        <Link key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" sx={linkStyle}>
+                          {link.label} <LaunchIcon sx={{ fontSize: '1rem' }} />
+                        </Link>
+                      ))}
+                    </Box>
                   )}
-                  <Typography sx={{ color: '#D5DFE9', my: 2, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                    {project.description}
-                  </Typography>
+                  <Box component="ul" sx={{ color: '#D5DFE9', my: 2, pl: 2.5, '& li': { mb: 1, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } } }}>
+                    {project.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </Box>
                   <Box sx={{ mt: 2 }}>
                     {project.technologies.map((tech) => (
                       <Chip key={tech} label={tech} size="small" sx={{ ...chipStyle, fontSize: { xs: '0.75rem', sm: '0.875rem' } }} />

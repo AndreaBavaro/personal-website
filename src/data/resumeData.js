@@ -48,6 +48,18 @@ const baseResume = {
   ],
   projects: [
     {
+      title: "Nitely (iOS)",
+      technologies: ["Swift", "SwiftUI", "Supabase (PostgreSQL)", "Mapbox", "Next.js", "Claude Code"],
+      links: [
+        { label: "nitely.ca", url: "https://nitely.ca" },
+        { label: "Download on the App Store", url: "https://apps.apple.com/us/app/nitely-toronto/id6758633905" }
+      ],
+      bullets: [
+        "Full-stack iOS app (solo, end-to-end): Shipped a Toronto nightlife app to the App Store (110+ users) with a Swift/SwiftUI front end and a Supabase backend (79 tables, 165+ RPCs, 10 edge functions, 24 cron jobs), plus a Next.js admin web app.",
+        "Recommendation Engine: Built a 10-section weighted recommendation engine (cosine vibe-match, Jaccard music overlap, geo decay) and operationalized Claude Code as a parallel-agent dev pipeline with a custom .claude/skills/ library and git-hook policy enforcement across 50+ Linear tickets."
+      ]
+    },
+    {
       title: "AI Interview Insights Pipeline",
       technologies: ["Python", "Hume AI SDK", "Zoom SDK", "OpenAI", "FPDF"],
       bullets: [
@@ -59,14 +71,6 @@ const baseResume = {
       technologies: ["Arduino", "C++", "Electrical Circuitry", "Hardware Prototyping"],
       bullets: [
         "Embedded Engineering: Designed and wired a custom electrical circuit for a self-massaging leg sleeve; programmed an Arduino chip to regulate haptic feedback patterns and motor pressure intervals."
-      ]
-    },
-    {
-      title: "Nitely (iOS)",
-      technologies: ["Swift", "SwiftUI", "Supabase (PostgreSQL)", "Mapbox", "Next.js", "Claude Code"],
-      bullets: [
-        "Full-stack iOS app (solo, end-to-end): Shipped a Toronto nightlife app to the App Store (110+ users) with a Swift/SwiftUI front end and a Supabase backend (79 tables, 165+ RPCs, 10 edge functions, 24 cron jobs), plus a Next.js admin web app.",
-        "Recommendation Engine: Built a 10-section weighted recommendation engine (cosine vibe-match, Jaccard music overlap, geo decay) and operationalized Claude Code as a parallel-agent dev pipeline with a custom .claude/skills/ library and git-hook policy enforcement across 50+ Linear tickets."
       ]
     }
   ],

@@ -7,6 +7,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import BuildIcon from '@mui/icons-material/Build';
 import DownloadIcon from '@mui/icons-material/Download';
 import PersonIcon from '@mui/icons-material/Person';
+import LaunchIcon from '@mui/icons-material/Launch';
 import { europeanResume, globalResume } from '../data/resumeData';
 import { isEurope } from '../utils/geolocation';
 
@@ -182,20 +183,21 @@ const Resume = () => {
               <Section icon={<CodeIcon color="#B8C5D1" />} title="Projects">
                 {resumeData.projects.map((project, index) => (
                   <Box key={index} sx={{ mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1.5, mb: 1 }}>
                       <Typography variant="h6" sx={{ color: '#B8C5D1' }}>
                         {project.title}
                       </Typography>
-                      {project.demoLink && (
+                      {project.links?.map((link) => (
                         <Link
-                          href={project.demoLink}
+                          key={link.url}
+                          href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          sx={{ color: '#8BA6C7', textDecoration: 'none', '&:hover': { color: '#B8C5D1', textDecoration: 'underline' } }}
+                          sx={{ display: 'inline-flex', alignItems: 'center', gap: '3px', color: '#8BA6C7', textDecoration: 'none', fontSize: '0.85rem', '&:hover': { color: '#B8C5D1', textDecoration: 'underline' } }}
                         >
-                          View Demo →
+                          {link.label} <LaunchIcon sx={{ fontSize: '0.95rem' }} />
                         </Link>
-                      )}
+                      ))}
                     </Box>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1 }}>
                       {Array.isArray(project.technologies) ? 
