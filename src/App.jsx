@@ -1,5 +1,8 @@
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Box, Typography, Container, Button, CssBaseline, Paper } from '@mui/material';
+import { Box, Typography, Container, Button, CssBaseline, Paper, IconButton, Tooltip } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import EmailIcon from '@mui/icons-material/Email';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import { useTheme } from './context/ThemeContext';
@@ -13,6 +16,17 @@ import CountryPhotos from './components/CountryPhotos';
 import SecureImage from './components/SecureImage';
 import OAuthRedirect from './components/OAuthRedirect';
 import { isEurope } from './utils/geolocation';
+import { globalResume } from './data/resumeData';
+
+const { email, links } = globalResume.header.contact;
+const githubUrl = links.find((l) => l.text === 'GitHub')?.url;
+const linkedInUrl = links.find((l) => l.text === 'LinkedIn')?.url;
+
+const socialLinks = [
+  { label: 'GitHub', icon: <GitHubIcon />, href: githubUrl },
+  { label: 'LinkedIn', icon: <LinkedInIcon />, href: linkedInUrl },
+  { label: 'Email', icon: <EmailIcon />, href: `mailto:${email}` },
+];
 
 const NavigationButtons = ({ activeSection, onSectionChange }) => {
   const buttonStyle = (section) => ({
@@ -73,6 +87,41 @@ const NavigationButtons = ({ activeSection, onSectionChange }) => {
   );
 };
 
+const tileBaseSx = {
+  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+  border: '1px solid rgba(255, 255, 255, 0.14)',
+  borderRadius: { xs: '14px', md: '18px' },
+  p: { xs: 2.25, md: 2.75 },
+  display: 'flex',
+  flexDirection: 'column',
+  transition: 'transform .2s ease, background-color .2s ease',
+};
+
+const tileLinkSx = {
+  cursor: 'pointer',
+  '&:hover': { transform: 'translateY(-3px)', backgroundColor: 'rgba(255, 255, 255, 0.13)' },
+};
+
+const tileLabelSx = {
+  fontSize: '0.7rem',
+  textTransform: 'uppercase',
+  letterSpacing: '0.12em',
+  color: '#8fa6bf',
+  mb: 1,
+};
+
+const tagSx = {
+  fontSize: '0.7rem',
+  px: 1.1,
+  py: 0.4,
+  borderRadius: '20px',
+  backgroundColor: 'rgba(150, 180, 220, 0.2)',
+  color: '#dbe6f2',
+  whiteSpace: 'nowrap',
+};
+
 const AppContent = () => {
   const { theme } = useTheme();
   const [activeSection, setActiveSection] = useState(null);
@@ -122,18 +171,13 @@ const AppContent = () => {
                 About Me
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                I'm a passionate Full Stack Software Developer currently working at Citi. I also enjoying creating side projects that you can view in my Portfolio.
+                Hey, I'm Andrea! I'm currently a Software Developer on the Platform Engineering team at Citi.
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                Outside of work I love spending time with friends and family. On my free time I like staying active through exercise and playing sports like tennis, basketball and soccer. 
-              </Typography>
-              <Typography sx={{ color: '#D5DFE9', mb: 1, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                I am most passionate about capturing moments, people, and the wonders of the world through travelling and photography.
-              </Typography>
-              <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
+                I take pride in an unorthodox approach to problem-solving. I like to explore the unrealistic and the creative without constraints, then use first-principles thinking to leverage those ideas into the most effective course of action.
               </Typography>
               <Typography sx={{ color: '#D5DFE9', lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                My main goal in life is to improve the lives of others, and make the world a more meaningful place through passionate work and hobbies.
+                On my free time I love travelling, especially to Italy, to learn more about my family and cultural history. I also enjoy experiences with loved ones and strangers too — through sharing meals, playing sports, watching sports, or just sitting and talking about life.
               </Typography>
             </Paper>
             {activeSection === 'about' && (
@@ -187,7 +231,7 @@ const AppContent = () => {
         backgroundImage: 'url("/background.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
+        backgroundAttachment: { xs: 'scroll', md: 'fixed' },
         position: 'relative',
         '&::before': {
           content: '""',
@@ -209,6 +253,7 @@ const AppContent = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          justifyContent: activeSection ? 'flex-start' : { xs: 'flex-start', md: 'center' },
           minHeight: '100vh',
           pt: { xs: 4, sm: 6, md: 8 },
           pb: { xs: 2, md: 4 },
@@ -221,83 +266,168 @@ const AppContent = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+            style={{ width: '100%' }}
           >
-            <Typography 
-              variant="h2" 
-              component="h1" 
-              sx={{ 
-                mb: { xs: 3, sm: 4, md: 5 },
-                textAlign: 'center',
-                color: 'white',
-                fontWeight: 600,
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem', lg: '3.5rem' },
-                px: { xs: 1, sm: 0 }
-              }}
-            >
-              Andrea Wolfgang Diano-Bavaro
-            </Typography>
+            <Box sx={{ width: '100%', maxWidth: '1040px', mx: 'auto' }}>
+              {/* Name banner */}
+              <Box sx={{ mb: { xs: 2, md: 2.5 }, px: { xs: 0.5, md: 1 } }}>
+                <Typography
+                  variant="h2"
+                  component="h1"
+                  sx={{
+                    color: 'white',
+                    fontWeight: 800,
+                    lineHeight: 1.02,
+                    letterSpacing: '-0.015em',
+                    textShadow: '0 2px 12px rgba(0,0,0,0.35)',
+                    fontSize: { xs: '1.9rem', sm: '3rem', md: '3.6rem' },
+                  }}
+                >
+                  Andrea Wolfgang Diano-Bavaro
+                </Typography>
+                <Typography
+                  sx={{
+                    mt: 1,
+                    color: '#9fc0e8',
+                    fontWeight: 500,
+                    fontSize: { xs: '0.95rem', md: '1.15rem' },
+                  }}
+                >
+                  {isEuropeanUser ? 'Full Stack Developer · Toronto & Italy' : 'Full Stack Developer · Toronto'}
+                </Typography>
+              </Box>
 
-            {/* Welcome Section */}
-            <Box
-              sx={{
-                width: { xs: '100%', sm: '340px', md: '380px' },
-                maxWidth: '400px',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                borderRadius: { xs: '12px', md: '16px' },
-                padding: { xs: '20px 16px', sm: '24px 20px', md: '32px 24px' },
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: { xs: 2, sm: 2.5, md: 3 },
-                mb: { xs: 3, md: 4 }
-              }}
-            >
-              <SecureImage
-                src="/profile.jpg"
-                alt="Andrea Wolfgang"
+              {/* Bento grid */}
+              <Box
                 sx={{
-                  width: { xs: '120px', sm: '150px', md: '180px' },
-                  height: { xs: '120px', sm: '150px', md: '180px' },
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  objectPosition: 'center 35%',
-                  transform: 'rotate(5deg)',
-                  border: '3px solid rgba(255, 255, 255, 0.2)',
-                }}
-              />
-              <Typography
-                sx={{
-                  color: 'white',
-                  fontSize: { xs: '1.1rem', sm: '1.2rem', md: '1.3rem' },
-                  fontWeight: 500,
-                  textAlign: 'center',
-                  lineHeight: 1.4
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: '0.95fr 1fr 1fr' },
+                  gridTemplateRows: { sm: '1fr 1fr' },
+                  gap: { xs: 1.5, md: 2 },
+                  minHeight: { sm: '340px' },
                 }}
               >
-                Welcome to my personally developed website!
-              </Typography>
-              <Typography
-                sx={{
-                  color: '#8BA6C7',
-                  textAlign: 'center',
-                  fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
-                  lineHeight: 1.6
-                }}
-              >
-                {isEuropeanUser 
-                  ? "I'm a Full Stack Software Developer based in Toronto, and I also reside in Italy part-time."
-                  : "I'm a Full Stack Software Developer based in Toronto."}
-              </Typography>
+                {/* Photo + links */}
+                <Box
+                  sx={{
+                    ...tileBaseSx,
+                    gridRow: { sm: '1 / 3' },
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: { xs: 2, md: 2.5 },
+                  }}
+                >
+                  <SecureImage
+                    src="/profile.jpg"
+                    alt="Andrea Wolfgang"
+                    sx={{
+                      width: { xs: '116px', md: '140px' },
+                      height: { xs: '116px', md: '140px' },
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      objectPosition: 'center 35%',
+                      border: '3px solid rgba(255, 255, 255, 0.22)',
+                    }}
+                  />
+                  <Box sx={{ display: 'flex', gap: 1.25 }}>
+                    {socialLinks.map((social) => (
+                      <Tooltip key={social.label} title={social.label}>
+                        <IconButton
+                          component="a"
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={social.label}
+                          sx={{
+                            width: 56,
+                            height: 56,
+                            color: 'white',
+                            backgroundColor: 'rgba(255, 255, 255, 0.10)',
+                            border: '1px solid rgba(255, 255, 255, 0.25)',
+                            backdropFilter: 'blur(10px)',
+                            WebkitBackdropFilter: 'blur(10px)',
+                            transition: 'all 0.2s ease',
+                            '& svg': { fontSize: 26 },
+                            '&:hover': {
+                              backgroundColor: 'rgba(255, 255, 255, 0.22)',
+                              transform: 'translateY(-3px)',
+                            },
+                          }}
+                        >
+                          {social.icon}
+                        </IconButton>
+                      </Tooltip>
+                    ))}
+                  </Box>
+                </Box>
+
+                {/* Experience */}
+                <Box sx={{ ...tileBaseSx, ...tileLinkSx }} onClick={() => setActiveSection('resume')}>
+                  <Typography sx={tileLabelSx}>Experience</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box
+                      sx={{
+                        backgroundColor: '#fff',
+                        borderRadius: '10px',
+                        px: 1.5,
+                        py: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.25)',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Box component="img" src="/citi-logo.svg" alt="Citi" sx={{ height: 24, display: 'block' }} />
+                    </Box>
+                    <Typography sx={{ fontWeight: 700, fontSize: { xs: '1rem', md: '1.1rem' }, color: '#fff' }}>
+                      Full Stack Developer
+                    </Typography>
+                  </Box>
+                  <Typography sx={{ mt: 1.25, color: '#d7e2ee', fontSize: { xs: '0.85rem', md: '0.9rem' }, lineHeight: 1.5 }}>
+                    <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>2 years</Box> managing projects across Go, Python, and TypeScript.
+                  </Typography>
+                </Box>
+
+                {/* Nitely (accent) */}
+                <Box
+                  sx={{
+                    ...tileBaseSx,
+                    ...tileLinkSx,
+                    background: 'linear-gradient(135deg, rgba(33,150,243,0.28), rgba(33,150,243,0.12))',
+                    borderColor: 'rgba(33, 150, 243, 0.4)',
+                  }}
+                  onClick={() => setActiveSection('portfolio')}
+                >
+                  <Typography sx={tileLabelSx}>Shipped · App Store</Typography>
+                  <Typography sx={{ fontWeight: 700, fontSize: { xs: '1.05rem', md: '1.2rem' }, color: '#fff', mb: 0.5 }}>
+                    Nitely (iOS)
+                  </Typography>
+                  <Typography sx={{ color: '#d7e2ee', fontSize: { xs: '0.82rem', md: '0.88rem' }, lineHeight: 1.5 }}>
+                    Toronto nightlife app — Swift/SwiftUI front end on a Supabase backend (79 tables, 165+ RPCs).
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 'auto', pt: 1.5 }}>
+                    {['Swift', 'SwiftUI', 'Supabase', 'Next.js'].map((t) => (
+                      <Box key={t} component="span" sx={tagSx}>{t}</Box>
+                    ))}
+                  </Box>
+                </Box>
+
+                {/* About (wide) */}
+                <Box
+                  sx={{ ...tileBaseSx, ...tileLinkSx, gridColumn: { sm: '2 / 4' } }}
+                  onClick={() => setActiveSection('about')}
+                >
+                  <Typography sx={tileLabelSx}>About</Typography>
+                  <Typography sx={{ color: '#e2eaf3', fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.6 }}>
+                    Hey, I'm Andrea — a <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>Software Developer on Citi's Platform Engineering team</Box>. I pair unconstrained, creative problem-solving with first-principles thinking to land on the most effective path forward. Off the clock: travelling (especially to Italy for family &amp; culture), sports, and good conversations over a meal.
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
           </motion.div>
         )}
 
-        <NavigationButtons 
+        <NavigationButtons
           activeSection={activeSection} 
           onSectionChange={setActiveSection}
         />
