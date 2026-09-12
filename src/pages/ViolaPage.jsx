@@ -6,7 +6,7 @@ import Typewriter from '../components/viola/Typewriter';
 import ConsulateBadge from '../components/viola/ConsulateBadge';
 import PolaroidDeck from '../components/viola/PolaroidDeck';
 import FallingApple from '../components/viola/FallingApple';
-import { initAudio, setMuted } from '../components/viola/sfx';
+import { initAudio, setMuted, initClip, unlockClip } from '../components/viola/sfx';
 
 // Auto-discovered so Andrea can drop files in without editing a manifest.
 const photoModules = import.meta.glob('../assets/viola/*.{jpg,jpeg,png,webp}', {
@@ -46,6 +46,13 @@ const bruhModules = import.meta.glob('../assets/viola-bruh.{mp3,wav,m4a,ogg}', {
   import: 'default',
 });
 const bruhUrl = Object.values(bruhModules)[0] ?? null;
+
+const appleModules = import.meta.glob('../assets/viola-apple.{mp3,wav,m4a,ogg}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+const appleUrl = Object.values(appleModules)[0] ?? null;
 
 const INTRO_MS = 3200;
 
@@ -160,6 +167,10 @@ const ViolaPage = () => {
   // Must run inside the tap handler — browsers only unlock audio on a gesture.
   const open = () => {
     initAudio();
+    // Both must happen inside this tap: iOS won't let the apple clip play
+    // later on its own unless it has been unlocked by a real gesture first.
+    initClip(appleUrl);
+    unlockClip();
     // Browsers restore scroll on reload; without this the opening beat can be
     // scrolled past before it ever plays.
     window.scrollTo(0, 0);

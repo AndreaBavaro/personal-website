@@ -1,15 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { playThud, isMuted } from './sfx';
+import { playThud, playAppleClip } from './sfx';
 
-// Optional custom impact sound. Falls back to the synthesised thud if absent.
-const clipModules = import.meta.glob('../../assets/viola-apple.{mp3,wav,m4a,ogg}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
-const appleClip = Object.values(clipModules)[0] ?? null;
-
+// The clip itself is owned by sfx.js so it can be unlocked during the opening
+// tap — iOS refuses programmatic playback otherwise.
 const CLIP_START = 5;
 const CLIP_END = 11;
 
@@ -26,44 +20,10 @@ const DUST = Array.from({ length: 9 }, (_, i) => i);
 const FallingApple = ({ trigger }) => {
   const reduceMotion = useReducedMotion();
   const [landed, setLanded] = useState(false);
-  const audioRef = useRef(null);
-
-  // Preloaded so seeking to CLIP_START works the instant the apple lands
-  useEffect(() => {
-    if (!appleClip) return undefined;
-    const audio = new Audio(appleClip);
-    audio.preload = 'auto';
-    audioRef.current = audio;
-    return () => {
-      audio.pause();
-      audioRef.current = null;
-    };
-  }, []);
-
-  const playClip = () => {
-    const audio = audioRef.current;
-    if (!audio) return false;
-    try {
-      audio.currentTime = CLIP_START;
-      const stopAtEnd = () => {
-        if (audio.currentTime >= CLIP_END) {
-          audio.pause();
-          audio.removeEventListener('timeupdate', stopAtEnd);
-        }
-      };
-      audio.addEventListener('timeupdate', stopAtEnd);
-      audio.play().catch(() => {});
-      return true;
-    } catch {
-      return false;
-    }
-  };
 
   const onLanded = () => {
-    if (!isMuted()) {
-      // Custom clip if present, otherwise the synthesised thud
-      if (!playClip()) playThud();
-    }
+    // Custom clip if one is loaded, otherwise the synthesised thud
+    if (!playAppleClip(CLIP_START, CLIP_END)) playThud();
     setLanded(true);
   };
 
