@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:host": "vite --host",
     "prebuild": "node scripts/generatePhotoData.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "viola:optimize": "node scripts/optimizeViolaPhotos.js",
     "prepare": "husky install"
   },
   "husky": {
