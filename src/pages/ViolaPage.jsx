@@ -492,24 +492,7 @@ const ViolaPage = () => {
 
       {/* ── Beat 6 · outro ──────────────────────────────────── */}
       <Beat last style={{ paddingBottom: 'max(14vh, 110px)', textAlign: 'center' }}>
-        {outroGif ? (
-          <motion.img
-            src={outroGif}
-            alt=""
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            style={{
-              display: 'block',
-              margin: '0 auto',
-              maxWidth: 'min(86vw, 420px)',
-              maxHeight: '46dvh',
-              objectFit: 'contain',
-              borderRadius: 12,
-            }}
-          />
-        ) : (
+        {!outroGif && (
           <motion.div
             animate={reduceMotion ? {} : { rotate: [0, 16, -8, 16, 0] }}
             transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1.4 }}
@@ -546,6 +529,25 @@ const ViolaPage = () => {
         >
           ciao ❤️
         </p>
+
+        {outroGif && (
+          <motion.img
+            src={outroGif}
+            alt=""
+            initial={{ opacity: 0, scale: 0.92 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            style={{
+              display: 'block',
+              margin: '26px auto 0',
+              maxWidth: 'min(86vw, 400px)',
+              maxHeight: '42dvh',
+              objectFit: 'contain',
+              borderRadius: 12,
+            }}
+          />
+        )}
       </Beat>
     </div>
   );
