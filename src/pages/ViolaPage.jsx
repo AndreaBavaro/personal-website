@@ -72,7 +72,7 @@ const ScrollCue = ({ delay = 1.4 }) => (
       position: 'absolute',
       left: 0,
       right: 0,
-      bottom: 'max(22px, env(safe-area-inset-bottom))',
+      bottom: 'max(10px, env(safe-area-inset-bottom))',
       textAlign: 'center',
       color: 'rgba(255,255,255,0.5)',
       fontSize: 13,
@@ -91,6 +91,7 @@ const ScrollCue = ({ delay = 1.4 }) => (
  */
 const Beat = ({ children, style, last = false }) => (
   <motion.section
+    className="viola-beat"
     initial={{ opacity: 0, y: 34 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.3 }}
@@ -99,14 +100,14 @@ const Beat = ({ children, style, last = false }) => (
       width: '100%',
       maxWidth: 620,
       margin: '0 auto',
-      minHeight: '100dvh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       scrollSnapAlign: 'center',
-      // Longhand so per-beat paddingTop/paddingBottom overrides don't conflict
-      paddingTop: '10vh',
-      paddingBottom: '12vh',
+      // Kept tight so the beat fits one screen and the scroll cue stays above
+      // the fold. Longhand so per-beat overrides don't conflict.
+      paddingTop: '6vh',
+      paddingBottom: '8vh',
       paddingLeft: 22,
       paddingRight: 22,
       position: 'relative',
@@ -213,10 +214,20 @@ const ViolaPage = () => {
     >
       <style>{`
         .viola-root { min-height: 100vh; min-height: 100dvh; }
-        .viola-screen { min-height: 100vh; min-height: 100dvh; }
-        /* One beat per screen. 'proximity' rather than 'mandatory' so a beat
-           taller than the viewport can never trap content out of reach. */
-        html { scroll-snap-type: y proximity; scroll-behavior: smooth; }
+        .viola-screen { min-height: 100vh; min-height: 100svh; }
+        /* Snap only with a precise pointer. On touch, iOS momentum scrolling
+           and snap fight each other and the page feels like it's grabbing at
+           you — full-height beats already give the one-part-per-screen feel,
+           so touch gets plain, buttery native scrolling.
+           No scroll-behavior:smooth either; it also fights momentum. */
+        @media (pointer: fine) {
+          html { scroll-snap-type: y proximity; }
+        }
+        html, body { overscroll-behavior-y: contain; }
+        /* svh, not dvh: dvh changes as the iOS toolbar collapses, which
+           resizes every beat mid-scroll and makes snapping jump. svh is
+           stable, so the layout holds still while she scrolls. */
+        .viola-beat { min-height: 100vh; min-height: 100svh; }
         @keyframes violaCaret { 0%,49%{opacity:1} 50%,100%{opacity:0} }
         @keyframes violaFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
       `}</style>
