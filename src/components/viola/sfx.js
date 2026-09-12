@@ -143,6 +143,58 @@ export const playBell = () => {
   });
 };
 
+/* ── Sampled clip (the apple impact) ─────────────────────────────────
+ * iOS only allows an <audio> element to play programmatically once it has
+ * played at least once inside a real user gesture. The apple lands long
+ * after the opening tap, so the element is unlocked during that tap (played
+ * silently for an instant) and is then free to play on demand.
+ */
+let clip = null;
+
+export const initClip = (url) => {
+  if (clip || !url) return;
+  clip = new Audio(url);
+  clip.preload = 'auto';
+};
+
+/** MUST be called from inside a user gesture. */
+export const unlockClip = () => {
+  if (!clip) return;
+  const restore = clip.volume;
+  clip.volume = 0;
+  clip
+    .play()
+    .then(() => {
+      clip.pause();
+      clip.currentTime = 0;
+      clip.volume = restore;
+    })
+    .catch(() => {
+      clip.volume = restore;
+    });
+};
+
+/** Plays the clip between `start` and `end` seconds. Returns false if unavailable. */
+export const playAppleClip = (start, end) => {
+  if (muted || !clip) return false;
+  try {
+    clip.currentTime = start;
+    const stopAtEnd = () => {
+      if (clip.currentTime >= end) {
+        clip.pause();
+        clip.removeEventListener('timeupdate', stopAtEnd);
+      }
+    };
+    clip.addEventListener('timeupdate', stopAtEnd);
+    // If iOS still refuses (unlock didn't take), fall back to the synth thud
+    // rather than leaving the apple landing silent.
+    clip.play().catch(() => playThud());
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 /** Deep impact for the apple landing. */
 export const playThud = () => {
   if (!ready()) return;
