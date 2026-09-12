@@ -33,6 +33,13 @@ const introModules = import.meta.glob('../assets/viola-intro.{gif,webp,png,jpg}'
 });
 const introGif = Object.values(introModules)[0] ?? null;
 
+const outroModules = import.meta.glob('../assets/viola-outro.{gif,webp,png,jpg}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+const outroGif = Object.values(outroModules)[0] ?? null;
+
 const bruhModules = import.meta.glob('../assets/viola-bruh.{mp3,wav,m4a,ogg}', {
   eager: true,
   query: '?url',
@@ -53,7 +60,36 @@ const PHOTOS_LINE =
 
 const NAME = 'Hey Viola';
 
-const Beat = ({ children, style }) => (
+/** Bouncing "scroll" cue, delayed so it appears after the beat's content lands. */
+const ScrollCue = ({ delay = 1.4 }) => (
+  <motion.div
+    aria-hidden="true"
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ delay, duration: 0.7 }}
+    style={{
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 'max(22px, env(safe-area-inset-bottom))',
+      textAlign: 'center',
+      color: 'rgba(255,255,255,0.5)',
+      fontSize: 13,
+      letterSpacing: '0.08em',
+      pointerEvents: 'none',
+      animation: 'violaFloat 2.2s ease-in-out infinite',
+    }}
+  >
+    scroll ↓
+  </motion.div>
+);
+
+/**
+ * One beat per screen. Each fills the viewport and snaps, so only a single
+ * part is ever visible — she has to scroll to reveal the next one.
+ */
+const Beat = ({ children, style, last = false }) => (
   <motion.section
     initial={{ opacity: 0, y: 34 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -63,9 +99,14 @@ const Beat = ({ children, style }) => (
       width: '100%',
       maxWidth: 620,
       margin: '0 auto',
+      minHeight: '100dvh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      scrollSnapAlign: 'center',
       // Longhand so per-beat paddingTop/paddingBottom overrides don't conflict
-      paddingTop: '11vh',
-      paddingBottom: '11vh',
+      paddingTop: '10vh',
+      paddingBottom: '12vh',
       paddingLeft: 22,
       paddingRight: 22,
       position: 'relative',
@@ -74,6 +115,7 @@ const Beat = ({ children, style }) => (
     }}
   >
     {children}
+    {!last && <ScrollCue />}
   </motion.section>
 );
 
@@ -172,6 +214,9 @@ const ViolaPage = () => {
       <style>{`
         .viola-root { min-height: 100vh; min-height: 100dvh; }
         .viola-screen { min-height: 100vh; min-height: 100dvh; }
+        /* One beat per screen. 'proximity' rather than 'mandatory' so a beat
+           taller than the viewport can never trap content out of reach. */
+        html { scroll-snap-type: y proximity; scroll-behavior: smooth; }
         @keyframes violaCaret { 0%,49%{opacity:1} 50%,100%{opacity:0} }
         @keyframes violaFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
       `}</style>
@@ -305,6 +350,7 @@ const ViolaPage = () => {
           padding: '24px',
           position: 'relative',
           zIndex: 2,
+          scrollSnapAlign: 'center',
         }}
       >
         {/* Typed in the same typewriter face, with the same key strikes.
@@ -445,22 +491,41 @@ const ViolaPage = () => {
       </Beat>
 
       {/* ── Beat 6 · outro ──────────────────────────────────── */}
-      <Beat style={{ paddingBottom: 'max(16vh, 120px)', textAlign: 'center' }}>
-        <motion.div
-          animate={reduceMotion ? {} : { rotate: [0, 16, -8, 16, 0] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1.4 }}
-          style={{ display: 'inline-block', transformOrigin: '70% 80%' }}
-        >
-          {memoji ? (
-            <img
-              src={memoji}
-              alt=""
-              style={{ width: 128, height: 128, objectFit: 'contain', display: 'block' }}
-            />
-          ) : (
-            <span style={{ fontSize: 84, lineHeight: 1 }}>👋</span>
-          )}
-        </motion.div>
+      <Beat last style={{ paddingBottom: 'max(14vh, 110px)', textAlign: 'center' }}>
+        {outroGif ? (
+          <motion.img
+            src={outroGif}
+            alt=""
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            style={{
+              display: 'block',
+              margin: '0 auto',
+              maxWidth: 'min(86vw, 420px)',
+              maxHeight: '46dvh',
+              objectFit: 'contain',
+              borderRadius: 12,
+            }}
+          />
+        ) : (
+          <motion.div
+            animate={reduceMotion ? {} : { rotate: [0, 16, -8, 16, 0] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1.4 }}
+            style={{ display: 'inline-block', transformOrigin: '70% 80%' }}
+          >
+            {memoji ? (
+              <img
+                src={memoji}
+                alt=""
+                style={{ width: 128, height: 128, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span style={{ fontSize: 84, lineHeight: 1 }}>👋</span>
+            )}
+          </motion.div>
+        )}
         <p
           style={{
             marginTop: 22,
