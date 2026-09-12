@@ -15,6 +15,7 @@ import Photos from './components/Photos';
 import CountryPhotos from './components/CountryPhotos';
 import SecureImage from './components/SecureImage';
 import OAuthRedirect from './components/OAuthRedirect';
+import ViolaPage from './pages/ViolaPage';
 import { isEurope } from './utils/geolocation';
 import { globalResume } from './data/resumeData';
 
@@ -490,6 +491,8 @@ function App() {
           <Route path="/photos" element={<Photos />} />
           <Route path="/photos/:countryName" element={<CountryPhotos />} />
           <Route path="/oauth/callback" element={<OAuthRedirect />} />
+          {/* Unlisted one-off page, shared by direct link only */}
+          <Route path="/v/napoli-9f3a2c" element={<ViolaPage />} />
         </Routes>
       </Router>
     </MuiThemeProvider>
