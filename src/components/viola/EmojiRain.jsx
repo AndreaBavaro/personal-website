@@ -61,7 +61,9 @@ const EmojiRain = ({ emojis = DEFAULT_EMOJIS, active = true }) => {
             left: `${d.left}%`,
             fontSize: d.size,
             lineHeight: 1,
-            filter: 'saturate(0.9)',
+            // No filter: it forces an extra paint pass on every frame, which
+            // is a needless cost on a phone during scroll.
+            willChange: 'transform',
           }}
         >
           {d.emoji}

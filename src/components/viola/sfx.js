@@ -10,6 +10,7 @@
 
 let ctx = null;
 let noiseBuffer = null;
+let master = null;
 let muted = false;
 
 const makeNoiseBuffer = (audioCtx) => {
@@ -29,8 +30,23 @@ export const initAudio = () => {
       if (!AudioCtx) return;
       ctx = new AudioCtx();
       noiseBuffer = makeNoiseBuffer(ctx);
+      // Single output stage — phone speakers need considerably more level
+      // than a laptop, and this keeps the mix balanced in one place.
+      master = ctx.createGain();
+      master.gain.value = 2.6;
+      master.connect(ctx.destination);
+
+      // iOS suspends the context aggressively (backgrounding, route changes,
+      // even idling). Re-arm it on any subsequent interaction.
+      const wake = () => {
+        if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+      };
+      ['touchstart', 'touchend', 'pointerdown', 'click'].forEach((evt) =>
+        document.addEventListener(evt, wake, { passive: true })
+      );
+      document.addEventListener('visibilitychange', wake);
     }
-    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
   } catch {
     ctx = null;
   }
@@ -42,7 +58,15 @@ export const setMuted = (value) => {
 
 export const isMuted = () => muted;
 
-const ready = () => ctx && !muted && ctx.state === 'running';
+const ready = () => {
+  if (!ctx || !master || muted) return false;
+  // Nudge a suspended context awake; this call is silent, the next lands.
+  if (ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+    return false;
+  }
+  return ctx.state === 'running';
+};
 
 /**
  * Mechanical typebar strike, built from three layers because a single click
@@ -67,7 +91,7 @@ export const playKey = ({ soft = false } = {}) => {
   strikeGain.gain.setValueAtTime(0.0001, t);
   strikeGain.gain.exponentialRampToValueAtTime(0.3 * level, t + 0.0012);
   strikeGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.016);
-  strike.connect(hp).connect(strikeGain).connect(ctx.destination);
+  strike.connect(hp).connect(strikeGain).connect(master);
   strike.start(t);
   strike.stop(t + 0.03);
 
@@ -81,7 +105,7 @@ export const playKey = ({ soft = false } = {}) => {
     ringGain.gain.setValueAtTime(0.0001, t);
     ringGain.gain.exponentialRampToValueAtTime(0.055, t + 0.001);
     ringGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.032);
-    ring.connect(ringGain).connect(ctx.destination);
+    ring.connect(ringGain).connect(master);
     ring.start(t);
     ring.stop(t + 0.05);
   }
@@ -96,7 +120,7 @@ export const playKey = ({ soft = false } = {}) => {
   bodyGain.gain.setValueAtTime(0.0001, t);
   bodyGain.gain.exponentialRampToValueAtTime(0.16 * level, t + 0.002);
   bodyGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.055);
-  body.connect(lp).connect(bodyGain).connect(ctx.destination);
+  body.connect(lp).connect(bodyGain).connect(master);
   body.start(t);
   body.stop(t + 0.07);
 };
@@ -113,7 +137,7 @@ export const playBell = () => {
     gain.gain.setValueAtTime(0.0001, t);
     gain.gain.exponentialRampToValueAtTime(i === 0 ? 0.12 : 0.06, t + 0.005);
     gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
-    osc.connect(gain).connect(ctx.destination);
+    osc.connect(gain).connect(master);
     osc.start(t);
     osc.stop(t + 1);
   });
@@ -133,7 +157,7 @@ export const playThud = () => {
   oscGain.gain.setValueAtTime(0.0001, t);
   oscGain.gain.exponentialRampToValueAtTime(0.6, t + 0.012);
   oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
-  osc.connect(oscGain).connect(ctx.destination);
+  osc.connect(oscGain).connect(master);
   osc.start(t);
   osc.stop(t + 0.6);
 
@@ -148,7 +172,7 @@ export const playThud = () => {
   noiseGain.gain.setValueAtTime(0.0001, t);
   noiseGain.gain.exponentialRampToValueAtTime(0.32, t + 0.008);
   noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
-  src.connect(lp).connect(noiseGain).connect(ctx.destination);
+  src.connect(lp).connect(noiseGain).connect(master);
   src.start(t);
   src.stop(t + 0.35);
 };
