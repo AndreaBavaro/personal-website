@@ -1,6 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { playThud } from './sfx';
+import { playThud, isMuted } from './sfx';
+
+// Optional custom impact sound. Falls back to the synthesised thud if absent.
+const clipModules = import.meta.glob('../../assets/viola-apple.{mp3,wav,m4a,ogg}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+const appleClip = Object.values(clipModules)[0] ?? null;
+
+const CLIP_START = 5;
+const CLIP_END = 11;
 
 const DUST = Array.from({ length: 9 }, (_, i) => i);
 
@@ -15,9 +26,44 @@ const DUST = Array.from({ length: 9 }, (_, i) => i);
 const FallingApple = ({ trigger }) => {
   const reduceMotion = useReducedMotion();
   const [landed, setLanded] = useState(false);
+  const audioRef = useRef(null);
+
+  // Preloaded so seeking to CLIP_START works the instant the apple lands
+  useEffect(() => {
+    if (!appleClip) return undefined;
+    const audio = new Audio(appleClip);
+    audio.preload = 'auto';
+    audioRef.current = audio;
+    return () => {
+      audio.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const playClip = () => {
+    const audio = audioRef.current;
+    if (!audio) return false;
+    try {
+      audio.currentTime = CLIP_START;
+      const stopAtEnd = () => {
+        if (audio.currentTime >= CLIP_END) {
+          audio.pause();
+          audio.removeEventListener('timeupdate', stopAtEnd);
+        }
+      };
+      audio.addEventListener('timeupdate', stopAtEnd);
+      audio.play().catch(() => {});
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   const onLanded = () => {
-    playThud();
+    if (!isMuted()) {
+      // Custom clip if present, otherwise the synthesised thud
+      if (!playClip()) playThud();
+    }
     setLanded(true);
   };
 
