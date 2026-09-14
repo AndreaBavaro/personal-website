@@ -173,7 +173,7 @@ const AppContent = () => {
                 About Me
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
-                Hey, I'm Andrea! I'm currently a Software Developer on the Platform Engineering team at Citi.
+                Hey, I'm Andrea! I'm currently a Full Stack Developer on the Platform Engineering team at Citi.
               </Typography>
               <Typography sx={{ color: '#D5DFE9', mb: 3, lineHeight: 1.8, fontSize: { xs: '0.9rem', sm: '1rem' } }}>
                 I take pride in an unorthodox approach to problem-solving. I like to explore the unrealistic and the creative without constraints, then use first-principles thinking to leverage those ideas into the most effective course of action.
@@ -386,7 +386,7 @@ const AppContent = () => {
                     </Typography>
                   </Box>
                   <Typography sx={{ mt: 'auto', pt: 1.5, color: '#d7e2ee', fontSize: { xs: '0.85rem', md: '0.9rem' }, lineHeight: 1.5 }}>
-                    <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>2 years</Box> shipping automation and developer tooling that cut manual effort 85% — across Go, Python, and TypeScript.
+                    <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>2+ years</Box> shipping automation, developer tooling and AI-first workflows that cut manual effort 85% across Go, Python, Java and TypeScript.
                   </Typography>
                 </Box>
 
@@ -405,10 +405,10 @@ const AppContent = () => {
                     Nitely (iOS)
                   </Typography>
                   <Typography sx={{ color: '#d7e2ee', fontSize: { xs: '0.82rem', md: '0.88rem' }, lineHeight: 1.5 }}>
-                    Toronto nightlife app — Swift/SwiftUI front end on a Supabase backend (79 tables, 165+ RPCs).
+                    Toronto nightlife app, shipped solo. 140+ users, 5-star rated. Its catalog of 880+ venues is built entirely by LLM pipelines with no manual data entry.
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 'auto', pt: 1.5 }}>
-                    {['Swift', 'SwiftUI', 'Supabase', 'Next.js'].map((t) => (
+                    {['Swift', 'SwiftUI', 'Supabase', 'LLM pipelines', 'Claude Code'].map((t) => (
                       <Box key={t} component="span" sx={tagSx}>{t}</Box>
                     ))}
                   </Box>
@@ -427,7 +427,7 @@ const AppContent = () => {
                 >
                   <Typography sx={tileLabelSx}>About</Typography>
                   <Typography sx={{ color: '#e2eaf3', fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.6 }}>
-                    Hey, I'm Andrea — a <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>Software Developer on Citi's Platform Engineering team</Box>. I pair unconstrained, creative problem-solving with first-principles thinking to land on the most effective path forward. Off the clock: travelling (especially to Italy for family &amp; culture), sports, and good conversations over a meal.
+                    Hey, I'm Andrea — a <Box component="span" sx={{ color: '#9fc0e8', fontWeight: 600 }}>Full Stack Developer on Citi's Platform Engineering team</Box>, and an Italian (EU) citizen. Most of what I build sits where applied AI meets production systems: schema-constrained LLM extraction, agent orchestration, and the unglamorous parts that decide whether an AI feature survives contact with real users. I pair creative problem-solving with first-principles thinking to land on the most effective path forward. Off the clock: travelling (especially to Italy for family &amp; culture), sports, and good conversations over a meal.
                   </Typography>
                 </Box>
               </Box>
