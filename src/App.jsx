@@ -405,7 +405,7 @@ const AppContent = () => {
                     Nitely (iOS)
                   </Typography>
                   <Typography sx={{ color: '#d7e2ee', fontSize: { xs: '0.82rem', md: '0.88rem' }, lineHeight: 1.5 }}>
-                    Toronto nightlife app, shipped solo. 140+ users, 5-star rated. Its catalog of 880+ venues is built entirely by LLM pipelines with no manual data entry.
+                    Toronto nightlife app, shipped solo. 140+ users, 5-star rated. Its catalog of 900+ venues is built entirely by LLM pipelines with no manual data entry.
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 'auto', pt: 1.5 }}>
                     {['Swift', 'SwiftUI', 'Supabase', 'LLM pipelines', 'Claude Code'].map((t) => (
