@@ -13,7 +13,7 @@ A hidden, playful, animated one-off page on andreawolfgang.com that Andrea sends
 
 ## Route & privacy
 
-- Route: `/#/v/<token>` (HashRouter, slug adjustable).
+- Route: `/#/v/<token>` (HashRouter; the token is kept out of the repo).
 - Rendered full-screen, **outside** `AppContent` — no navbar, no bento, no theme toggle.
 - Not linked from anywhere on the site.
 - On mount, inject `<meta name="robots" content="noindex,nofollow">`; remove on unmount so the rest of the site stays indexable.
