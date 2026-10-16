@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 import { Box, Typography, Container, Button, CssBaseline, Paper, IconButton, Tooltip } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -16,6 +16,8 @@ import CountryPhotos from './components/CountryPhotos';
 import SecureImage from './components/SecureImage';
 import OAuthRedirect from './components/OAuthRedirect';
 import ViolaPage from './pages/ViolaPage';
+import CanalePage from './pages/CanalePage';
+import { tokenIsValid } from './viola/crypto';
 import { isEurope } from './utils/geolocation';
 import { globalResume } from './data/resumeData';
 
@@ -479,6 +481,14 @@ const AppContent = () => {
   );
 };
 
+const Ep1Gate = () => {
+  const { token } = useParams();
+  const [ok, setOk] = useState(null);
+  useEffect(() => { tokenIsValid(token).then(setOk); }, [token]);
+  if (ok === null) return null;
+  return ok ? <ViolaPage /> : <div style={{ minHeight: '100svh', background: '#0b1030' }} />;
+};
+
 function App() {
   const { theme } = useTheme();
   
@@ -491,8 +501,9 @@ function App() {
           <Route path="/photos" element={<Photos />} />
           <Route path="/photos/:countryName" element={<CountryPhotos />} />
           <Route path="/oauth/callback" element={<OAuthRedirect />} />
-          {/* Unlisted one-off page, shared by direct link only */}
-          <Route path="/v/<token>" element={<ViolaPage />} />
+          {/* Canale Viola: unlisted pages reached only from a printed link; the token is checked, never stored here */}
+          <Route path="/v/:token" element={<CanalePage />} />
+          <Route path="/v/:token/ep1" element={<Ep1Gate />} />
         </Routes>
       </Router>
     </MuiThemeProvider>

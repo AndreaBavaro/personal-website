@@ -4,8 +4,39 @@
     {
       "name": "dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev:host"],
+      "runtimeArgs": [
+        "run",
+        "dev:host"
+      ],
       "port": 5173
+    },
+    {
+      "name": "viola-test",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "5188",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        ".superpowers"
+      ],
+      "port": 5188
+    },
+    {
+      "name": "dist",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "5189",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "dist"
+      ],
+      "port": 5189
     }
   ]
 }
