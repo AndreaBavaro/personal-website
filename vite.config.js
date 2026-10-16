@@ -88,7 +88,7 @@ export default defineConfig({
                   "style-src 'self' 'unsafe-inline' https://assets.calendly.com https://fonts.googleapis.com",
                   "frame-src 'self' https://calendly.com https://open.spotify.com",
                   "connect-src 'self' https://api.calendly.com https://ipapi.co https://api.emailjs.com",
-                  "img-src 'self' data: https://assets.calendly.com https://i.ytimg.com",
+                  "img-src 'self' data: blob: https://assets.calendly.com https://i.ytimg.com",
                   "media-src 'self' blob:",
                   "font-src 'self' data: https://fonts.gstatic.com",
                   "object-src 'none'",
