@@ -1,14 +1,20 @@
 // Canale Viola: the page and its audio are stored encrypted. The key is derived from the
 // secret token in the URL (/#/v/<token>), so the repo never holds anything readable.
-import { SALT, TOKEN_HASH } from './token.js';
+import { SALT, GATE } from './token.js';
 
 const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
-const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
 const enc = new TextEncoder();
 
+// A token is valid if the key it derives can open the marker (AES-GCM fails on a wrong key).
 export async function tokenIsValid(token) {
   if (!token || !window.crypto?.subtle) return false;
-  return hex(await crypto.subtle.digest('SHA-256', enc.encode(token))) === TOKEN_HASH;
+  try {
+    const key = await deriveKey(token);
+    await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(GATE.iv) }, key, b64(GATE.ct));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function deriveKey(token) {
